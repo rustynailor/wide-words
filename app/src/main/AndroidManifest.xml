@@ -8,12 +8,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name=".data.generated.WideWordsProvider"
             android:authorities="uk.co.rustynailor.widewords.data.WideWordsProvider"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
         <activity android:name=".DashboardActivity">
             <intent-filter>
@@ -21,6 +20,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".QuizActivity"
+            android:label="@string/title_activity_quiz"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
         </activity>
     </application>
 

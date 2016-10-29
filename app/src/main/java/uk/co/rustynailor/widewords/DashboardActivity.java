@@ -1,12 +1,16 @@
 package uk.co.rustynailor.widewords;
 
 import android.content.ContentProviderOperation;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,6 +41,11 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Cursor c = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
                 null, null, null, null);
         Log.i("Dashboard", "cursor count: " + c.getCount());
@@ -48,15 +57,24 @@ public class DashboardActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
                 WORD_COLUMNS, null, null, null);
 
-        TextView hello = (TextView) findViewById(R.id.hello);
+        //TextView hello = (TextView) findViewById(R.id.hello);
 
         if(cursor.getColumnCount() > 0){
             while(cursor.moveToNext()){
-                hello.append(" " + cursor.getString(COL_WORD_WORD));
+          //      hello.append(" " + cursor.getString(COL_WORD_WORD));
             }
         }
 
         cursor.close();
+
+        FrameLayout startQuiz = (FrameLayout) findViewById(R.id.start_quiz);
+        startQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void insertData(){

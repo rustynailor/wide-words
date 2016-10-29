@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="uk.co.rustynailor.widewords.QuizActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryLight">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:text="Select a correct definition for:"
+                android:id="@+id/word_definition"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:gravity="center_vertical"
+                android:layout_marginEnd="20sp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@color/colorAccent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:text="ineluctable"
+                android:id="@+id/word"
+                android:textColor="@android:color/white"
+                android:textSize="36sp"
+                android:textStyle="normal|bold"
+                android:gravity="center"
+                android:layout_marginEnd="20sp"/>
+
+
+
+        </FrameLayout>
+
+        <!--change to support recyclerview for build-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/answers"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryLight"
+            android:layout_height="0dp"
+            android:layout_weight="4"/>
+
+            <Chronometer
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="24sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"/>
+
+
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
