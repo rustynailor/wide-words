@@ -24,6 +24,7 @@ public final class WideWordsProvider {
 
     interface Path {
         String WORDS = "words";
+        String NEW_WORDS = "new_words";
         String QUIZZES = "quizzes";
         String QUIZ_QUESTIONS = "quiz_questions";
     }
@@ -40,8 +41,7 @@ public final class WideWordsProvider {
 
         @ContentUri(
                 path = Path.WORDS,
-                type = "vnd.android.cursor.dir/word",
-                defaultSort = WordColumns.WORD + " ASC")
+                type = "vnd.android.cursor.dir/word")
         public static final Uri CONTENT_URI = buildUri(Path.WORDS);
 
         @InexactContentUri(
@@ -53,6 +53,7 @@ public final class WideWordsProvider {
         public static Uri withId(long id) {
             return buildUri(Path.WORDS, String.valueOf(id));
         }
+
 
     }
 }
