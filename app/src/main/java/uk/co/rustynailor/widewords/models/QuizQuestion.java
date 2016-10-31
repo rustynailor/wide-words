@@ -14,10 +14,15 @@ public class QuizQuestion implements Parcelable{
     private int mId;
     private int mQuizId;
     private int mWordId;
+    private String mWord;
+    private String mDefinition;
     private int mPosition;
     private int mWrongDefinition1Id;
+    private String mWrongDefinition1;
     private int mWrongDefinition2Id;
+    private String mWrongDefinition2;
     private int mWrongDefinition3Id;
+    private String mWrongDefinition3;
     private int mAnswerGiven;
     private QuizQuestionResult mQuizQuestionResult;
 
@@ -40,6 +45,11 @@ public class QuizQuestion implements Parcelable{
         } catch (IllegalArgumentException x) {
             mQuizQuestionResult = null;
         }
+        mWord = in.readString();
+        mDefinition = in.readString();
+        mWrongDefinition1 = in.readString();
+        mWrongDefinition2 = in.readString();
+        mWrongDefinition3 = in.readString();
     }
 
     public static final Creator<QuizQuestion> CREATOR = new Creator<QuizQuestion>() {
@@ -126,6 +136,46 @@ public class QuizQuestion implements Parcelable{
         mAnswerGiven = answerGiven;
     }
 
+    public String getWord() {
+        return mWord;
+    }
+
+    public void setWord(String word) {
+        mWord = word;
+    }
+
+    public String getDefinition() {
+        return mDefinition;
+    }
+
+    public void setDefinition(String definition) {
+        mDefinition = definition;
+    }
+
+    public String getWrongDefinition1() {
+        return mWrongDefinition1;
+    }
+
+    public void setWrongDefinition1(String wrongDefinition1) {
+        mWrongDefinition1 = wrongDefinition1;
+    }
+
+    public String getWrongDefinition2() {
+        return mWrongDefinition2;
+    }
+
+    public void setWrongDefinition2(String wrongDefinition2) {
+        mWrongDefinition2 = wrongDefinition2;
+    }
+
+    public String getWrongDefinition3() {
+        return mWrongDefinition3;
+    }
+
+    public void setWrongDefinition3(String wrongDefinition3) {
+        mWrongDefinition3 = wrongDefinition3;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -142,5 +192,10 @@ public class QuizQuestion implements Parcelable{
         parcel.writeInt(mWrongDefinition3Id);
         parcel.writeInt(mAnswerGiven);
         parcel.writeString((mQuizQuestionResult == null) ? "" : mQuizQuestionResult.name());
+        parcel.writeString(mWord);
+        parcel.writeString(mDefinition);
+        parcel.writeString(mWrongDefinition1);
+        parcel.writeString(mWrongDefinition2);
+        parcel.writeString(mWrongDefinition3);
     }
 }

@@ -88,4 +88,8 @@ public class Quiz implements Parcelable {
     public void setQuizQuestions(ArrayList<QuizQuestion> quizQuestions) {
         mQuizQuestions = quizQuestions;
     }
+
+    public void addQuizQuestion(QuizQuestion quizQuestion) {
+        mQuizQuestions.add(quizQuestion);
+    }
 }
