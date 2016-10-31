@@ -16,9 +16,8 @@ public class QuizActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Quiz quiz = QuizManager.buildQuiz(this);
+        QuizManager quizManager = new QuizManager();
+        Quiz quiz = quizManager.buildQuiz(this);
     }
 
 }
