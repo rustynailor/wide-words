@@ -56,4 +56,44 @@ public final class WideWordsProvider {
 
 
     }
+
+    @TableEndpoint(table = WideWordsDatabase.QUIZ) public static class Quiz {
+
+        @ContentUri(
+                path = Path.QUIZZES,
+                type = "vnd.android.cursor.dir/quiz")
+        public static final Uri CONTENT_URI = buildUri(Path.QUIZZES);
+
+        @InexactContentUri(
+                path = Path.QUIZZES + "/#",
+                name = "_ID",
+                type = "vnd.android.cursor.item/quiz",
+                whereColumn = WordColumns._ID,
+                pathSegment = 1)
+        public static Uri withId(long id) {
+            return buildUri(Path.QUIZZES, String.valueOf(id));
+        }
+
+
+    }
+
+    @TableEndpoint(table = WideWordsDatabase.QUIZ_QUESTION) public static class QuizQuestion {
+
+        @ContentUri(
+                path = Path.QUIZ_QUESTIONS,
+                type = "vnd.android.cursor.dir/quiz_question")
+        public static final Uri CONTENT_URI = buildUri(Path.QUIZ_QUESTIONS);
+
+        @InexactContentUri(
+                path = Path.QUIZ_QUESTIONS + "/#",
+                name = "_ID",
+                type = "vnd.android.cursor.item/quiz_question",
+                whereColumn = WordColumns._ID,
+                pathSegment = 1)
+        public static Uri withId(long id) {
+            return buildUri(Path.QUIZ_QUESTIONS, String.valueOf(id));
+        }
+
+
+    }
 }

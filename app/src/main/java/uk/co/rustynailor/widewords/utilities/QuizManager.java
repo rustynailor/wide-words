@@ -1,12 +1,18 @@
 package uk.co.rustynailor.widewords.utilities;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
+import uk.co.rustynailor.widewords.data.QuizColumns;
+import uk.co.rustynailor.widewords.data.QuizQuestionColumns;
 import uk.co.rustynailor.widewords.data.WideWordsDatabase;
 import uk.co.rustynailor.widewords.data.WideWordsProvider;
 import uk.co.rustynailor.widewords.data.WordColumns;
@@ -44,8 +50,27 @@ public class QuizManager {
 
     //build a new ten question Quiz
     public Quiz buildQuiz(Context context){
+
         Quiz quiz = new Quiz();
 
+        quiz.setQuestionPosition(0);
+        Date d = new Date();
+        quiz.setStarted(d.getTime());
+
+
+        //save quiz to db to get Id
+        ContentValues quizValues = new ContentValues();
+
+        quizValues.put(QuizColumns.QUESTION_POSITION, quiz.getQuestionPosition());
+        quizValues.put(QuizColumns.STARTED, quiz.getStarted());
+
+        Uri newQuizUri = context.getContentResolver().insert(
+                WideWordsProvider.Quiz.CONTENT_URI,
+                quizValues
+        );
+
+        //get new quiz Id
+        quiz.setId((int) ContentUris.parseId(newQuizUri));
 
         //first get number of unanswered questions
         String query =  WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT + " <  ?";
@@ -84,12 +109,13 @@ public class QuizManager {
             chosenWords.add(selectedWord);
         }
 
-        for(int questionPointer = 0; questionPointer < questionCount; questionCount++){
+        for(int questionPointer = 0; questionPointer < questionCount; questionPointer++){
 
             //pull together questions
             QuizQuestion quizQuestion = new QuizQuestion();
             Word chosenWord = chosenWords.get(questionPointer);
 
+            quizQuestion.setQuizId(quiz.getId());
             quizQuestion.setPosition(questionPointer + 1);
             quizQuestion.setWordId(chosenWord.getId());
             quizQuestion.setWord(chosenWord.getWord());
@@ -115,7 +141,29 @@ public class QuizManager {
                 }
             }
 
+            //set status to QUEUE - ie, unanswered
             quizQuestion.setQuizQuestionResult(QuizQuestionResult.QUEUE);
+
+            //write quiz question to database
+            ContentValues newQuestion = new ContentValues();
+
+            //add data to content values
+            newQuestion.put(QuizQuestionColumns.POSITION, quizQuestion.getPosition());
+            newQuestion.put(QuizQuestionColumns.QUIZ_ID, quizQuestion.getQuizId());
+            newQuestion.put(QuizQuestionColumns.WORD_ID, quizQuestion.getWordId());
+            newQuestion.put(QuizQuestionColumns.WRONG_DEFINITION_1_ID, quizQuestion.getWrongDefinition1Id());
+            newQuestion.put(QuizQuestionColumns.WRONG_DEFINITION_2_ID, quizQuestion.getWrongDefinition2Id());
+            newQuestion.put(QuizQuestionColumns.WRONG_DEFINITION_3_ID, quizQuestion.getWrongDefinition3Id());
+            newQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, quizQuestion.getQuizQuestionResult().toString());
+
+
+            Uri newQuizQuestionUri = context.getContentResolver().insert(
+                    WideWordsProvider.QuizQuestion.CONTENT_URI,
+                    newQuestion
+            );
+
+            //get new quiz Id
+            quizQuestion.setId((int) ContentUris.parseId(newQuizQuestionUri));
 
             //add question to quiz
             quiz.addQuizQuestion(quizQuestion);
@@ -125,6 +173,8 @@ public class QuizManager {
         return quiz;
 
     }
+
+    //TODO: method to restore quiz from database
 
     private Word getWrongWord(ArrayList<Word> usedWords){
         Word selectedWord = null;
