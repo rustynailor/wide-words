@@ -38,8 +38,9 @@ public final class WideWordsDatabase {
         String[] initialDefs =  InitialData.initialdefinitions;
 
         for(int i=0; i< initialWords.length; i++){
-           String sql = "INSERT INTO " + WORDS + " (" + WordColumns.WORD + "," + WordColumns.DEFINITION + ") " +
-                    "VALUES (\"" + initialWords[i] + "\",\"" + initialDefs[i] + "\")";
+           String sql = "INSERT INTO " + WORDS + " (" + WordColumns.WORD + "," + WordColumns.DEFINITION + ","
+                   + WordColumns.CORRECT_COUNT + "," + WordColumns.INCORRECT_COUNT + ") " +
+                    "VALUES (\"" + initialWords[i] + "\",\"" + initialDefs[i] + "\", 0, 0)";
             db.execSQL(sql);
 
         }
