@@ -1,5 +1,6 @@
 package uk.co.rustynailor.widewords;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +21,14 @@ public class QuizActivity extends AppCompatActivity {
         QuizManager quizManager = new QuizManager();
         Quiz quiz = quizManager.buildQuiz(this);
 
+        //Todo: resume underway quiz (show options - resume or new)
+
+        //bundle quiz ans pass to quiz questions
         Log.d("TEST", "Quiz created");
+
+        Intent intent = new Intent(this, QuizQuestionActivity.class);
+        intent.putExtra("quiz", quiz);
+        startActivity(intent);
     }
 
 }

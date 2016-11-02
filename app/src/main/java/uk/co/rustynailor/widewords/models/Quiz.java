@@ -18,18 +18,19 @@ public class Quiz implements Parcelable {
     //position in quiz
     private int mQuestionPosition;
     //quiz questions
-    private ArrayList<QuizQuestion> mQuizQuestions;
+    private ArrayList<Integer> mQuizQuestions;
 
     //empty constructor
     public Quiz() {
-        mQuizQuestions = new ArrayList<QuizQuestion>();
     }
+
 
     protected Quiz(Parcel in) {
         mId = in.readInt();
         mStarted = in.readLong();
         mQuestionPosition = in.readInt();
-        mQuizQuestions = in.createTypedArrayList(QuizQuestion.CREATOR);
+        mQuizQuestions = new ArrayList<Integer>();
+        in.readList(mQuizQuestions, Integer.class.getClassLoader());
     }
 
     @Override
@@ -37,7 +38,7 @@ public class Quiz implements Parcelable {
         dest.writeInt(mId);
         dest.writeLong(mStarted);
         dest.writeInt(mQuestionPosition);
-        dest.writeTypedList(mQuizQuestions);
+        dest.writeList(mQuizQuestions);
     }
 
     @Override
@@ -81,15 +82,15 @@ public class Quiz implements Parcelable {
         mQuestionPosition = questionPosition;
     }
 
-    public ArrayList<QuizQuestion> getQuizQuestions() {
+    public ArrayList<Integer> getQuizQuestions() {
         return mQuizQuestions;
     }
 
-    public void setQuizQuestions(ArrayList<QuizQuestion> quizQuestions) {
+    public void setQuizQuestions(ArrayList<Integer> quizQuestions) {
         mQuizQuestions = quizQuestions;
     }
 
-    public void addQuizQuestion(QuizQuestion quizQuestion) {
-        mQuizQuestions.add(quizQuestion);
+    public void addQuizQuestionId(Integer quizQuestionId) {
+        mQuizQuestions.add(quizQuestionId);
     }
 }

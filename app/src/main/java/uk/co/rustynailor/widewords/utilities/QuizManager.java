@@ -166,7 +166,7 @@ public class QuizManager {
             quizQuestion.setId((int) ContentUris.parseId(newQuizQuestionUri));
 
             //add question to quiz
-            quiz.addQuizQuestion(quizQuestion);
+            quiz.addQuizQuestionId(quizQuestion.getId());
 
         } //end quiz question loop
 
