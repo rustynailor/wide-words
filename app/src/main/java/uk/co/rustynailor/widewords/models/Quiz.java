@@ -93,4 +93,9 @@ public class Quiz implements Parcelable {
     public void addQuizQuestionId(Integer quizQuestionId) {
         mQuizQuestions.add(quizQuestionId);
     }
+
+    public int getCurrentQuizQuestionId()
+    {
+        return mQuizQuestions.get(mQuestionPosition);
+    }
 }
