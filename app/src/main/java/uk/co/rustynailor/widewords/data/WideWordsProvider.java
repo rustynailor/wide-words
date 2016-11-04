@@ -88,8 +88,15 @@ public final class WideWordsProvider {
                 path = Path.QUIZ_QUESTIONS + "/#",
                 name = "_ID",
                 type = "vnd.android.cursor.item/quiz_question",
-                whereColumn = WordColumns._ID,
-                pathSegment = 1)
+                whereColumn = QuizColumns._ID,
+                pathSegment = 1,
+                join =  " JOIN " + WideWordsDatabase.WORDS + " AS CORRECT_WORD ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS INCORRECT_WORD_1 ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS ICORRECT_WORD ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS CORRECT_WORD ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
+
+
+        )
         public static Uri withId(long id) {
             return buildUri(Path.QUIZ_QUESTIONS, String.valueOf(id));
         }
