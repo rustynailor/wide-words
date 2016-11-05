@@ -33,8 +33,11 @@ public class ColumnProjections {
 
     public static final String[] QUIZ_QUESTION_COLUMNS = {
             WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns._ID,
+            CORRECT_WORD_TABLE_ALIAS + "." + WordColumns._ID,
             CORRECT_WORD_TABLE_ALIAS + "." + WordColumns.WORD,
             CORRECT_WORD_TABLE_ALIAS  + "." + WordColumns.DEFINITION,
+            CORRECT_WORD_TABLE_ALIAS  + "." + WordColumns.CORRECT_COUNT,
+            CORRECT_WORD_TABLE_ALIAS  + "." + WordColumns.INCORRECT_COUNT,
             INCORRECT_WORD1_TABLE_ALIAS + "." + WordColumns.DEFINITION,
             INCORRECT_WORD2_TABLE_ALIAS + "." + WordColumns.DEFINITION,
             INCORRECT_WORD3_TABLE_ALIAS + "." + WordColumns.DEFINITION
@@ -45,9 +48,12 @@ public class ColumnProjections {
     // These indices are tied to QUIZ_QUESTION_COLUMNS.  If WORD_COLUMNS change, these
     // must change.
     public static final int COL_QQ_ID = 0;
-    public static final int COL_QQ_WORD = 1;
-    public static final int COL_QQ_DEFINITION = 2;
-    public static final int COL_QQ_WRONG_1 = 3;
-    public static final int COL_QQ_WRONG_2 = 4;
-    public static final int COL_QQ_WRONG_3 = 5;
+    public static final int COL_QQ_WORD_ID = 1;
+    public static final int COL_QQ_WORD = 2;
+    public static final int COL_QQ_DEFINITION = 3;
+    public static final int COL_QQ_CORRECT_COUNT = 4;
+    public static final int COL_QQ_INCORRECT_COUNT = 5;
+    public static final int COL_QQ_WRONG_1 = 6;
+    public static final int COL_QQ_WRONG_2 = 7;
+    public static final int COL_QQ_WRONG_3 = 8;
 }

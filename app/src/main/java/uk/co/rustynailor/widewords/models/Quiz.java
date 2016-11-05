@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+import uk.co.rustynailor.widewords.enums.QuizQuestionResult;
+
 /**
  * Created by russellhicks on 25/10/2016.
  */
@@ -19,11 +21,14 @@ public class Quiz implements Parcelable {
     private int mQuestionPosition;
     //quiz questions
     private ArrayList<Integer> mQuizQuestions;
+    //quiz answers (1 = correct, 0 = incorrect)
+    private ArrayList<Integer> mQuizQuestionResults;
+
 
     //empty constructor
     public Quiz() {
-
         mQuizQuestions = new ArrayList<>();
+        mQuizQuestionResults = new ArrayList<>();
     }
 
 
@@ -33,6 +38,8 @@ public class Quiz implements Parcelable {
         mQuestionPosition = in.readInt();
         mQuizQuestions = new ArrayList<Integer>();
         in.readList(mQuizQuestions, Integer.class.getClassLoader());
+        mQuizQuestionResults = new ArrayList<Integer>();
+        in.readList(mQuizQuestionResults, Integer.class.getClassLoader());
     }
 
     @Override
@@ -41,6 +48,7 @@ public class Quiz implements Parcelable {
         dest.writeLong(mStarted);
         dest.writeInt(mQuestionPosition);
         dest.writeList(mQuizQuestions);
+        dest.writeList(mQuizQuestionResults);
     }
 
     @Override
@@ -99,6 +107,14 @@ public class Quiz implements Parcelable {
     public int getCurrentQuizQuestionId()
     {
         return mQuizQuestions.get(mQuestionPosition);
+    }
+
+    public ArrayList<Integer> getQuizQuestionResults() {
+        return mQuizQuestionResults;
+    }
+
+    public void setQuizQuestionResults(ArrayList<Integer> quizQuestionResults) {
+        mQuizQuestionResults = quizQuestionResults;
     }
 
     public boolean nextQuestion(){
