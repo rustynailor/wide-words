@@ -29,6 +29,7 @@ public class QuizActivity extends AppCompatActivity {
         Intent intent = new Intent(this, QuizQuestionActivity.class);
         intent.putExtra("quiz", quiz);
         startActivity(intent);
+        finish();
     }
 
 }

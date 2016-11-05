@@ -20,21 +20,10 @@ import uk.co.rustynailor.widewords.data.WideWordsDatabase;
 import uk.co.rustynailor.widewords.data.WideWordsProvider;
 import uk.co.rustynailor.widewords.data.WordColumns;
 
+import static uk.co.rustynailor.widewords.data.ColumnProjections.WORD_COLUMNS;
+
 public class DashboardActivity extends AppCompatActivity {
 
-    public static final String[] WORD_COLUMNS = {
-            WideWordsDatabase.WORDS + "." + WordColumns._ID,
-            WideWordsDatabase.WORDS + "." + WordColumns.WORD,
-            WideWordsDatabase.WORDS + "." + WordColumns.DEFINITION
-
-    };
-
-
-    // These indices are tied to ASSIGNMENT_COLUMNS.  If ASSIGNMENT_COLUMNS changes, these
-    // must change.
-    public static final int COL_WORD_ID = 0;
-    public static final int COL_WORD_WORD = 1;
-    public static final int COL_WORD_DEFINITION = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -7,6 +7,11 @@ import net.simonvt.schematic.annotation.ContentUri;
 import net.simonvt.schematic.annotation.InexactContentUri;
 import net.simonvt.schematic.annotation.TableEndpoint;
 
+import static uk.co.rustynailor.widewords.data.ColumnProjections.CORRECT_WORD_TABLE_ALIAS;
+import static uk.co.rustynailor.widewords.data.ColumnProjections.INCORRECT_WORD1_TABLE_ALIAS;
+import static uk.co.rustynailor.widewords.data.ColumnProjections.INCORRECT_WORD2_TABLE_ALIAS;
+import static uk.co.rustynailor.widewords.data.ColumnProjections.INCORRECT_WORD3_TABLE_ALIAS;
+
 /**
  * Created by russellhicks on 25/10/2016.
  */
@@ -88,12 +93,12 @@ public final class WideWordsProvider {
                 path = Path.QUIZ_QUESTIONS + "/#",
                 name = "_ID",
                 type = "vnd.android.cursor.item/quiz_question",
-                whereColumn = QuizColumns._ID,
+                whereColumn = WideWordsDatabase.QUIZ_QUESTION + "." + QuizColumns._ID,
                 pathSegment = 1,
-                join =  " JOIN " + WideWordsDatabase.WORDS + " AS CORRECT_WORD ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
-                        + " JOIN " + WideWordsDatabase.WORDS + " AS INCORRECT_WORD_1 ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
-                        + " JOIN " + WideWordsDatabase.WORDS + " AS ICORRECT_WORD ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
-                        + " JOIN " + WideWordsDatabase.WORDS + " AS CORRECT_WORD ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = CORRECT_WORD" + "." + WordColumns._ID
+                join =  " JOIN " + WideWordsDatabase.WORDS + " AS " + CORRECT_WORD_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = " + CORRECT_WORD_TABLE_ALIAS + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS " + INCORRECT_WORD1_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WRONG_DEFINITION_1_ID + " = " + INCORRECT_WORD1_TABLE_ALIAS + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS " + INCORRECT_WORD2_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WRONG_DEFINITION_2_ID + " = " + INCORRECT_WORD2_TABLE_ALIAS + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS " + INCORRECT_WORD3_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WRONG_DEFINITION_3_ID + " = " + INCORRECT_WORD3_TABLE_ALIAS + "." + WordColumns._ID
 
 
         )

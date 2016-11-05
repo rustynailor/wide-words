@@ -32,14 +32,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="8"
             android:background="@color/colorPrimaryDark">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:text="Select a correct definition for:"
-                android:id="@+id/word_definition"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="normal|bold"
@@ -50,7 +50,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="15"
             android:background="@color/colorAccent">
             <TextView
                 android:layout_width="match_parent"
@@ -62,32 +62,104 @@
                 android:textSize="36sp"
                 android:textStyle="normal|bold"
                 android:gravity="center"
-                android:layout_marginEnd="20sp"/>
+                android:layout_marginEnd="20dp"/>
 
 
 
         </FrameLayout>
 
-        <!--change to support recyclerview for build-->
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/answers"
-            android:layout_width="match_parent"
+        <LinearLayout
             android:background="@color/colorPrimaryLight"
+            android:layout_width="match_parent"
+            android:id="@+id/answers"
             android:layout_height="0dp"
-            android:layout_weight="4"/>
+            android:layout_weight="40"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="An evolutionary trend to be born earlier so that development is cut off at an earlier stage and juvenile characteristics are retained in adults of the species."
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp"
+                android:textSize="@dimen/question_text_size"
+                android:id="@+id/answer_1"
+
+               />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="An evolutionary trend to be born earlier so that development is cut off at an earlier stage and juvenile characteristics are retained in adults of the species."
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp"
+                android:textSize="@dimen/question_text_size"
+                android:id="@+id/answer_2"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="An evolutionary trend to be born earlier so that development is cut off at an earlier stage and juvenile characteristics are retained in adults of the species."
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp"
+                android:textSize="@dimen/question_text_size"
+                android:id="@+id/answer_3"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="An evolutionary trend to be born earlier so that development is cut off at an earlier stage and juvenile characteristics are retained in adults of the species."
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp"
+                android:textSize="@dimen/question_text_size"
+                android:id="@+id/answer_4"
+                />
+        </LinearLayout>
+
 
             <Chronometer
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:textSize="24sp"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/countdown"/>
 
 
 
