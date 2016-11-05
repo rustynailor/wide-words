@@ -1,14 +1,20 @@
 package uk.co.rustynailor.widewords;
 
-import android.content.Context;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.TextView;
@@ -20,17 +26,24 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import uk.co.rustynailor.widewords.data.ColumnProjections;
+import uk.co.rustynailor.widewords.data.QuizQuestionColumns;
 import uk.co.rustynailor.widewords.data.WideWordsProvider;
+import uk.co.rustynailor.widewords.data.WordColumns;
+import uk.co.rustynailor.widewords.enums.QuizQuestionResult;
 import uk.co.rustynailor.widewords.models.Quiz;
-import uk.co.rustynailor.widewords.utilities.QuizManager;
 
-public class QuizQuestionActivity extends AppCompatActivity  implements LoaderCallbacks<Cursor> {
+public class QuizQuestionActivity extends AppCompatActivity  implements View.OnClickListener, LoaderCallbacks<Cursor> {
 
     private Quiz mQuiz;
+    private int mCurrentWordId;
+    private int mCurrentWordCorrectCount;
+    private int mCurrentWordIncorrectCount;
+    private int mCurrentQuizQuestionId;
     private TextView mWord;
     private ArrayList<TextView> mAnswers;
     private int mCorrectAnswerPosition;
-    private Chronometer mCountdown;
+    private TextView mCountdown;
+    private CountDownTimer mCountDownTimer;
     private QuizQuestionActivity mContext;
 
     private static final int QUESTION_LOADER_ID = 1;
@@ -57,35 +70,73 @@ public class QuizQuestionActivity extends AppCompatActivity  implements LoaderCa
         mAnswers.add(answer3);
         mAnswers.add(answer4);
 
-        mCountdown = (Chronometer) findViewById(R.id.countdown);
+        mCountdown = (TextView) findViewById(R.id.countdown);
 
         mQuiz = (Quiz) getIntent().getParcelableExtra("quiz");
         getSupportLoaderManager().initLoader(QUESTION_LOADER_ID, null, this);
 
-        mCountdown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //if we can advance to the next question do so, else exit
-                if(mQuiz.nextQuestion() == false){
-                    finish();
-                } else {
-                    getSupportLoaderManager().restartLoader(QUESTION_LOADER_ID, null, mContext);
+
+    }
+
+
+    public void showAnswer(){
+        for(TextView view : mAnswers){
+            if(view.getTag().equals(getString(R.string.correct))){
+                view.setBackgroundColor(getResources().getColor(R.color.correctGreen));
+            } else {
+                view.setBackgroundColor(getResources().getColor(R.color.incorrectRed));
+            }
+        }
+    }
+
+    private void startTimer(){
+
+        mCountdown.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        mCountDownTimer = new CountDownTimer(10000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                mCountdown.setText(millisUntilFinished / 1000 + "");
+                if(millisUntilFinished < 3000){
+                    mCountdown.setTextColor(getResources().getColor(R.color.incorrectRed));
                 }
             }
-        });
 
+            public void onFinish() {
+                mCountdown.setText("-");
+                Log.e("TAG", "Incorrect Answer");
+                mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 0);
+                showAnswer();
+                nextQuestion();
+            }
+        }.start();
 
+    }
+
+    private void stopTimer(){
+        mCountDownTimer.cancel();
+        mCountDownTimer = null;
     }
 
     private void populateQuiz(Cursor cursor){
 
+        //first, update previous question in database
+        saveAnswer(mQuiz.getQuestionPosition()-1);
+
+        //update
+        mCurrentQuizQuestionId = cursor.getInt(ColumnProjections.COL_QQ_ID);
+        mCurrentWordId = cursor.getInt(ColumnProjections.COL_QQ_WORD_ID);
+        mCurrentWordCorrectCount = cursor.getInt(ColumnProjections.COL_QQ_CORRECT_COUNT);
+        mCurrentWordIncorrectCount = cursor.getInt(ColumnProjections.COL_QQ_INCORRECT_COUNT);
+
         Random randomGenerator = new Random();
         //randomly set position of correct word
-        mCorrectAnswerPosition = randomGenerator.nextInt(3);
+        mCorrectAnswerPosition = randomGenerator.nextInt(4);
+
 
         mWord.setText(cursor.getString(ColumnProjections.COL_QQ_WORD));
 
         mAnswers.get(mCorrectAnswerPosition).setText(cursor.getString(ColumnProjections.COL_QQ_DEFINITION));
+        mAnswers.get(mCorrectAnswerPosition).setTag(getString(R.string.correct));
 
         ArrayList<String> wrongDefinitions = new ArrayList<>();
         wrongDefinitions.add(cursor.getString(ColumnProjections.COL_QQ_WRONG_1));
@@ -94,10 +145,49 @@ public class QuizQuestionActivity extends AppCompatActivity  implements LoaderCa
 
         //loop through answers setting up textview
         for(int i=0; i<mAnswers.size(); i++){
+            //reset background colors
+            mAnswers.get(i).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            mAnswers.get(i).setOnClickListener(this);
 
             if(i!=mCorrectAnswerPosition) {
                 mAnswers.get(i).setText(wrongDefinitions.get(0));
+                mAnswers.get(i).setTag(getString(R.string.incorrect));
                 wrongDefinitions.remove(0);
+            }
+        }
+
+        //start countdown timer
+        startTimer();
+    }
+
+    public void saveAnswer(int position) {
+        //only go ahead if this is the last question
+
+        if (mQuiz.getQuestionPosition() > 0) {
+
+            if(mQuiz.getQuizQuestionResults().get(position) == 1)
+            {
+                //update correct count for word
+                ContentValues updateWord = new ContentValues();
+                updateWord.put(WordColumns.CORRECT_COUNT, mCurrentWordCorrectCount+1);
+                getContentResolver().update(WideWordsProvider.Words.withId(mCurrentWordId), updateWord, null, null);
+
+                //update quiz question
+                ContentValues updateQuizQuestion = new ContentValues();
+                updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.CORRECT.toString());
+                getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mCurrentQuizQuestionId), updateQuizQuestion, null, null);
+
+            } else {
+                //update incorrect count for word
+                ContentValues updateWord = new ContentValues();
+                updateWord.put(WordColumns.INCORRECT_COUNT, mCurrentWordIncorrectCount+1);
+                getContentResolver().update(WideWordsProvider.Words.withId(mCurrentWordId), updateWord, null, null);
+
+                //update quiz question
+                ContentValues updateQuizQuestion = new ContentValues();
+                updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.INCORRECT.toString());
+                getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mCurrentQuizQuestionId), updateQuizQuestion, null, null);
+
             }
         }
     }
@@ -133,4 +223,40 @@ public class QuizQuestionActivity extends AppCompatActivity  implements LoaderCa
     }
 
 
+    @Override
+    public void onClick(View view) {
+
+        //stopTimer
+        stopTimer();
+
+        //first, disable subsequent button presses by removing click listeners
+        for(TextView answer : mAnswers){
+            answer.setOnClickListener(null);
+        }
+
+        if(view.getTag().equals(getString(R.string.correct))){
+            Log.e("TAG", "Correct Answer");
+            mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 1);
+        } else {
+            Log.e("TAG", "Incorrect Answer");
+            mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 0);
+        }
+
+        showAnswer();
+        nextQuestion();
+    }
+
+    private void nextQuestion() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(mQuiz.nextQuestion() == false){
+                    saveAnswer(mQuiz.getQuestionPosition());
+                    finish();
+                } else {
+                    getSupportLoaderManager().restartLoader(QUESTION_LOADER_ID, null, mContext);
+                }
+            }
+        }, 3000);
+    }
 }

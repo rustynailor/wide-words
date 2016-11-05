@@ -23,7 +23,6 @@ public class QuizQuestion implements Parcelable{
     private String mWrongDefinition2;
     private int mWrongDefinition3Id;
     private String mWrongDefinition3;
-    private int mAnswerGiven;
     private QuizQuestionResult mQuizQuestionResult;
 
     public QuizQuestion() {
@@ -39,7 +38,6 @@ public class QuizQuestion implements Parcelable{
         mWrongDefinition1Id = in.readInt();
         mWrongDefinition2Id = in.readInt();
         mWrongDefinition3Id = in.readInt();
-        mAnswerGiven = in.readInt();
         try {
             mQuizQuestionResult = QuizQuestionResult.valueOf(in.readString());
         } catch (IllegalArgumentException x) {
@@ -128,14 +126,6 @@ public class QuizQuestion implements Parcelable{
         mQuizQuestionResult = quizQuestionResult;
     }
 
-    public int getAnswerGiven() {
-        return mAnswerGiven;
-    }
-
-    public void setAnswerGiven(int answerGiven) {
-        mAnswerGiven = answerGiven;
-    }
-
     public String getWord() {
         return mWord;
     }
@@ -190,7 +180,6 @@ public class QuizQuestion implements Parcelable{
         parcel.writeInt(mWrongDefinition1Id);
         parcel.writeInt(mWrongDefinition2Id);
         parcel.writeInt(mWrongDefinition3Id);
-        parcel.writeInt(mAnswerGiven);
         parcel.writeString((mQuizQuestionResult == null) ? "" : mQuizQuestionResult.name());
         parcel.writeString(mWord);
         parcel.writeString(mDefinition);

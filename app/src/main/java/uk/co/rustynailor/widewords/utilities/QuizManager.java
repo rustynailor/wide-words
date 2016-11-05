@@ -90,6 +90,7 @@ public class QuizManager {
 
         //pick our test questions;
         for(int i=0; i < questionCount; i++){
+            //add empty answered flag
             Word selectedWord = null;
             while(selectedWord == null){
                 int wordToGet = randomGenerator.nextInt(words.size());
@@ -159,6 +160,8 @@ public class QuizManager {
 
             //add question to quiz
             quiz.addQuizQuestionId(quizQuestion.getId());
+            //add result pointer set to 0
+            quiz.getQuizQuestionResults().add(0);
 
         } //end quiz question loop
 

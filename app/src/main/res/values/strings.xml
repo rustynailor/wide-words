@@ -3,4 +3,6 @@
     <string name="learn_words">LEARN WORDS</string>
     <string name="quiz_me">QUIZ ME</string>
     <string name="title_activity_quiz">QuizActivity</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
 </resources>
