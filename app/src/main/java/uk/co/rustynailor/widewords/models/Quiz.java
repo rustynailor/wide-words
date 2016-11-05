@@ -22,6 +22,8 @@ public class Quiz implements Parcelable {
 
     //empty constructor
     public Quiz() {
+
+        mQuizQuestions = new ArrayList<>();
     }
 
 
@@ -97,5 +99,16 @@ public class Quiz implements Parcelable {
     public int getCurrentQuizQuestionId()
     {
         return mQuizQuestions.get(mQuestionPosition);
+    }
+
+    public boolean nextQuestion(){
+        boolean success;
+        if((mQuestionPosition + 1) >= mQuizQuestions.size()){
+            success =  false;
+        } else {
+            mQuestionPosition++;
+            success =  true;
+        }
+        return success;
     }
 }

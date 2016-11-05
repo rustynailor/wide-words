@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import uk.co.rustynailor.widewords.data.ColumnProjections;
 import uk.co.rustynailor.widewords.data.QuizColumns;
 import uk.co.rustynailor.widewords.data.QuizQuestionColumns;
 import uk.co.rustynailor.widewords.data.WideWordsDatabase;
@@ -21,25 +22,16 @@ import uk.co.rustynailor.widewords.models.Quiz;
 import uk.co.rustynailor.widewords.models.QuizQuestion;
 import uk.co.rustynailor.widewords.models.Word;
 
+import static uk.co.rustynailor.widewords.data.ColumnProjections.COL_WORD_DEFINITION;
+import static uk.co.rustynailor.widewords.data.ColumnProjections.COL_WORD_ID;
+import static uk.co.rustynailor.widewords.data.ColumnProjections.COL_WORD_WORD;
+import static uk.co.rustynailor.widewords.data.ColumnProjections.WORD_COLUMNS;
+
 /**
  * Created by russellhicks on 29/10/2016.
  */
 
 public class QuizManager {
-
-    //projections
-    public static final String[] WORD_COLUMNS = {
-            WideWordsDatabase.WORDS + "." + WordColumns._ID,
-            WideWordsDatabase.WORDS + "." + WordColumns.DEFINITION,
-            WideWordsDatabase.WORDS + "." + WordColumns.WORD
-    };
-
-
-    // These indices are tied to WORD_COLUMNS.  If WORD_COLUMNS change, these
-    // must change.
-    public static final int COL_WORD_ID = 0;
-    public static final int COL_WORD_DEFINITION = 1;
-    public static final int COL_WORD_WORD = 2;
 
     //array to hold all words
     ArrayList<Word> words = new ArrayList<>();
