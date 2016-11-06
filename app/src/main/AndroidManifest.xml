@@ -30,10 +30,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
         </activity>
-
         <activity
             android:name=".QuizQuestionActivity"
             android:label="@string/title_activity_quiz"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
+        </activity>
+        <activity
+            android:name=".ResultsActivity"
+            android:label="@string/title_activity_results"
             android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme">
             <meta-data

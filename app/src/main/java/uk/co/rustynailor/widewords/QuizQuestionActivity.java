@@ -1,6 +1,7 @@
 package uk.co.rustynailor.widewords;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -252,6 +253,9 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
             public void run() {
                 if(mQuiz.nextQuestion() == false){
                     saveAnswer(mQuiz.getQuestionPosition());
+                    Intent intent = new Intent(mContext, ResultsActivity.class);
+                    intent.putExtra("quiz", mQuiz);
+                    startActivity(intent);
                     finish();
                 } else {
                     getSupportLoaderManager().restartLoader(QUESTION_LOADER_ID, null, mContext);
