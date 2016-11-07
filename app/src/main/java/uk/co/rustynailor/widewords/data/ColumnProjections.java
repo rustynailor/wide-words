@@ -40,7 +40,8 @@ public class ColumnProjections {
             CORRECT_WORD_TABLE_ALIAS  + "." + WordColumns.INCORRECT_COUNT,
             INCORRECT_WORD1_TABLE_ALIAS + "." + WordColumns.DEFINITION,
             INCORRECT_WORD2_TABLE_ALIAS + "." + WordColumns.DEFINITION,
-            INCORRECT_WORD3_TABLE_ALIAS + "." + WordColumns.DEFINITION
+            INCORRECT_WORD3_TABLE_ALIAS + "." + WordColumns.DEFINITION,
+            WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.QUIZ_QUESTION_RESULT
 
     };
 
@@ -56,4 +57,5 @@ public class ColumnProjections {
     public static final int COL_QQ_WRONG_1 = 6;
     public static final int COL_QQ_WRONG_2 = 7;
     public static final int COL_QQ_WRONG_3 = 8;
+    public static final int COL_QQ_RESULT = 9;
 }
