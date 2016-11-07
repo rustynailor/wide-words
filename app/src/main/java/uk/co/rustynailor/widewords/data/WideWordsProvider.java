@@ -92,7 +92,7 @@ public final class WideWordsProvider {
 
         @InexactContentUri(
                 path = Path.QUIZ_QUESTIONS + "/" + Path.FROM_QUIZ + "/#",
-                name = "_ID",
+                name = "QUIZ_QUESTIONS_FROM_QUIZ",
                 type = "vnd.android.cursor.dir/quiz_question",
                 whereColumn = WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.QUIZ_ID,
                 pathSegment = 2,
