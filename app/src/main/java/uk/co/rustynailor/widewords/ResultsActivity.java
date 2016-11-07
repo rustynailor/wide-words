@@ -30,6 +30,8 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
     private TextView mFinishButton;
     private Quiz mQuiz;
 
+    private static final int QUESTION_RESULTS_LOADER_ID = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,8 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
         });
 
         mQuiz = (Quiz) getIntent().getParcelableExtra("quiz");
+
+        getSupportLoaderManager().initLoader(QUESTION_RESULTS_LOADER_ID, null, this);
 
 
     }
