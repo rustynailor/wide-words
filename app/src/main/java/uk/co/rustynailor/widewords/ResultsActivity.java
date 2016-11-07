@@ -38,7 +38,7 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mResultsView = (TextView) findViewById(R.id.resultsContainer);
+        mResultsView = (TextView) findViewById(R.id.results_container);
         mMasteredResultsView = (TextView) findViewById(R.id.mastered_container);
         mMasteredRemainingView = (TextView) findViewById(R.id.mastered_remaining_container);
         mFinishButton = (TextView) findViewById(R.id.finish_button);
