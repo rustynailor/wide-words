@@ -32,6 +32,7 @@ public final class WideWordsProvider {
         String NEW_WORDS = "new_words";
         String QUIZZES = "quizzes";
         String QUIZ_QUESTIONS = "quiz_questions";
+        String FROM_QUIZ = "from_quiz";
     }
 
     private static Uri buildUri(String... paths) {
@@ -88,6 +89,23 @@ public final class WideWordsProvider {
                 path = Path.QUIZ_QUESTIONS,
                 type = "vnd.android.cursor.dir/quiz_question")
         public static final Uri CONTENT_URI = buildUri(Path.QUIZ_QUESTIONS);
+
+        @InexactContentUri(
+                path = Path.QUIZ_QUESTIONS + "/" + Path.FROM_QUIZ + "/#",
+                name = "_ID",
+                type = "vnd.android.cursor.dir/quiz_question",
+                whereColumn = WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.QUIZ_ID,
+                pathSegment = 2,
+                join =  " JOIN " + WideWordsDatabase.WORDS + " AS " + CORRECT_WORD_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WORD_ID + " = " + CORRECT_WORD_TABLE_ALIAS + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS " + INCORRECT_WORD1_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WRONG_DEFINITION_1_ID + " = " + INCORRECT_WORD1_TABLE_ALIAS + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS " + INCORRECT_WORD2_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WRONG_DEFINITION_2_ID + " = " + INCORRECT_WORD2_TABLE_ALIAS + "." + WordColumns._ID
+                        + " JOIN " + WideWordsDatabase.WORDS + " AS " + INCORRECT_WORD3_TABLE_ALIAS + " ON " + WideWordsDatabase.QUIZ_QUESTION + "." + QuizQuestionColumns.WRONG_DEFINITION_3_ID + " = " + INCORRECT_WORD3_TABLE_ALIAS + "." + WordColumns._ID
+
+
+        )
+        public static Uri fromQuiz(long id) {
+            return buildUri(Path.QUIZ_QUESTIONS, Path.FROM_QUIZ, String.valueOf(id));
+        }
 
         @InexactContentUri(
                 path = Path.QUIZ_QUESTIONS + "/#",
