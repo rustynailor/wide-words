@@ -31,6 +31,7 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
     private Quiz mQuiz;
 
     private static final int QUESTION_RESULTS_LOADER_ID = 1;
+    private static final int MASTERED_WORDS_LOADER_ID = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,56 +57,80 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
         mQuiz = (Quiz) getIntent().getParcelableExtra("quiz");
 
         getSupportLoaderManager().initLoader(QUESTION_RESULTS_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(MASTERED_WORDS_LOADER_ID, null, this);
 
 
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Loader loader =  new CursorLoader(
-                this,   // Parent activity context
-                WideWordsProvider.QuizQuestion.fromQuiz(mQuiz.getId()),        // Table to query
-                ColumnProjections.QUIZ_QUESTION_COLUMNS,     // Projection to return
-                null,            // No selection clause
-                null,            // No selection arguments
-                null             // Default sort order
-        );
+        switch (id) {
+            case QUESTION_RESULTS_LOADER_ID:
+                // Returns a new CursorLoader with quiz questions
+                return new CursorLoader(
+                        this,   // Parent activity context
+                        WideWordsProvider.QuizQuestion.fromQuiz(mQuiz.getId()),        // Table to query
+                        ColumnProjections.QUIZ_QUESTION_COLUMNS,     // Projection to return
+                        null,            // No selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+                );
+            case MASTERED_WORDS_LOADER_ID:
+                // Returns a new CursorLoader for unmastered words
+                String query =  WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT + " <  ?";
+                String[] params =  {"3"};
+                Cursor c = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
+                        WORD_COLUMNS, query, params, null);
 
-        return loader;
+                return new CursorLoader(
+                        this,   // Parent activity context
+                        WideWordsProvider.Words.CONTENT_URI,        // Table to query
+                        ColumnProjections.QUIZ_QUESTION_COLUMNS,     // Projection to return
+                        query,            // selection clause
+                        params,            //selection arguments
+                        null             // Default sort order
+                );
+            default:
+                // An invalid id was passed in
+                return null;
+        }
+
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        int correctCount = 0;
-        int masteredCount= 0;
+        switch (loader.getId()) {
+            case QUESTION_RESULTS_LOADER_ID:
+                int correctCount = 0;
+                int masteredCount= 0;
 
-        while (data.moveToNext()){
+                while (data.moveToNext()){
 
-            if(data.getInt(ColumnProjections.COL_QQ_CORRECT_COUNT) >= 3){
-                masteredCount++;
-            }
+                    if(data.getInt(ColumnProjections.COL_QQ_CORRECT_COUNT) >= 3){
+                        masteredCount++;
+                    }
 
-            QuizQuestionResult quizQuestionResult = QuizQuestionResult.valueOf(data.getString(ColumnProjections.COL_QQ_RESULT));
+                    QuizQuestionResult quizQuestionResult = QuizQuestionResult.valueOf(data.getString(ColumnProjections.COL_QQ_RESULT));
 
-            if(quizQuestionResult.equals(QuizQuestionResult.CORRECT)){
-                correctCount++;
-            }
+                    if(quizQuestionResult.equals(QuizQuestionResult.CORRECT)){
+                        correctCount++;
+                    }
+                }
+
+                mResultsView.setText(correctCount + "/" + mQuiz.getQuizQuestionResults().size() + getString(R.string.correct_with_space));
+                mMasteredResultsView.setText(masteredCount + getString(R.string.words_mastered));
+                break;
+            case MASTERED_WORDS_LOADER_ID:
+                mMasteredRemainingView.setText(getString(R.string.you_have) + data.getCount() + getString(R.string.words_left_to_master));
+                break;
+            default:
+                break;
         }
-
-        mResultsView.setText(correctCount + "/" + mQuiz.getQuizQuestionResults().size() + "  correct");
-        mMasteredResultsView.setText(masteredCount + " words mastered");
-
-        String query =  WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT + " <  ?";
-        String[] params =  {"3"};
-        Cursor c = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
-                WORD_COLUMNS, query, params, null);
-       mMasteredRemainingView.setText("You have " + c.getCount() + " words left to master");
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        //cursor not retained sd no reset neccessary
     }
 }

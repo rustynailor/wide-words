@@ -6,4 +6,8 @@
     <string name="correct">Correct</string>
     <string name="incorrect">Incorrect</string>
     <string name="title_activity_results">ResultsActivity</string>
+    <string name="correct_with_space">"  correct"</string>
+    <string name="words_mastered">" words mastered"</string>
+    <string name="you_have">"You have "</string>
+    <string name="words_left_to_master">" words left to master"</string>
 </resources>
