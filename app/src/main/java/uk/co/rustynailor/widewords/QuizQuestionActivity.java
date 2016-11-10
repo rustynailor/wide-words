@@ -5,19 +5,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.SystemClock;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.TextView;
 
 
@@ -94,7 +88,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         mCountdown.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
-        mCountDownTimer = new CountDownTimer(10000, 1000) {
+        mCountDownTimer = new CountDownTimer(5000, 1000) {
             public void onTick(long millisUntilFinished) {
                 mCountdown.setText(millisUntilFinished / 1000 + "");
                 if(millisUntilFinished < 3000){
@@ -105,7 +99,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
             public void onFinish() {
                 mCountdown.setText("-");
                 Log.e("TAG", "Incorrect Answer");
-                mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 0);
+                incorrectAnswer();
                 showAnswer();
                 nextQuestion();
             }
@@ -114,14 +108,16 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     }
 
     private void stopTimer(){
-        mCountDownTimer.cancel();
-        mCountDownTimer = null;
+        if(mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
     }
 
     private void populateQuiz(Cursor cursor){
 
+        //TODO: move save out to results activity
         //first, update previous question in database
-        saveAnswer(mQuiz.getQuestionPosition()-1);
+        //saveAnswer(mQuiz.getQuestionPosition()-1);
 
         //update
         mCurrentQuizQuestionId = cursor.getInt(ColumnProjections.COL_QQ_ID);
@@ -161,37 +157,6 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
         startTimer();
     }
 
-    public void saveAnswer(int position) {
-        //only go ahead if this is the last question
-
-        if (mQuiz.getQuestionPosition() > 0) {
-
-            if(mQuiz.getQuizQuestionResults().get(position) == 1)
-            {
-                //update correct count for word
-                ContentValues updateWord = new ContentValues();
-                updateWord.put(WordColumns.CORRECT_COUNT, mCurrentWordCorrectCount+1);
-                getContentResolver().update(WideWordsProvider.Words.withId(mCurrentWordId), updateWord, null, null);
-
-                //update quiz question
-                ContentValues updateQuizQuestion = new ContentValues();
-                updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.CORRECT.toString());
-                getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mCurrentQuizQuestionId), updateQuizQuestion, null, null);
-
-            } else {
-                //update incorrect count for word
-                ContentValues updateWord = new ContentValues();
-                updateWord.put(WordColumns.INCORRECT_COUNT, mCurrentWordIncorrectCount+1);
-                getContentResolver().update(WideWordsProvider.Words.withId(mCurrentWordId), updateWord, null, null);
-
-                //update quiz question
-                ContentValues updateQuizQuestion = new ContentValues();
-                updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.INCORRECT.toString());
-                getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mCurrentQuizQuestionId), updateQuizQuestion, null, null);
-
-            }
-        }
-    }
 
 
 
@@ -236,24 +201,46 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
         }
 
         if(view.getTag().equals(getString(R.string.correct))){
-            Log.e("TAG", "Correct Answer");
-            mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 1);
+            correctAnswer();
         } else {
-            Log.e("TAG", "Incorrect Answer");
-            mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 0);
+            incorrectAnswer();
         }
 
         showAnswer();
         nextQuestion();
     }
 
+    private void correctAnswer() {
+        Log.e("TAG", "Correct Answer");
+        mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 1);
+        mCurrentWordCorrectCount++;
+        mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);
+        mQuiz.getQuizQuestionIncorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordIncorrectCount);
+    }
+
+    private void incorrectAnswer() {
+        Log.e("TAG", "Incorrect Answer");
+        mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 0);
+        mCurrentWordIncorrectCount++;
+        mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);
+        mQuiz.getQuizQuestionIncorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordIncorrectCount);
+    }
+
     private void nextQuestion() {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+        final CountDownTimer nextQuestionCountdown = new CountDownTimer(3000, 1000) {
+
             @Override
-            public void run() {
+            public void onTick(long l) {
+                //no action required
+            }
+
+            public void onFinish() {
                 if(mQuiz.nextQuestion() == false){
-                    saveAnswer(mQuiz.getQuestionPosition());
+                    stopTimer();
+                    //saveAnswer(mQuiz.getQuestionPosition());
                     Intent intent = new Intent(mContext, ResultsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("quiz", mQuiz);
                     startActivity(intent);
                     finish();
@@ -261,6 +248,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
                     getSupportLoaderManager().restartLoader(QUESTION_LOADER_ID, null, mContext);
                 }
             }
-        }, 3000);
+        }.start();
+
     }
 }

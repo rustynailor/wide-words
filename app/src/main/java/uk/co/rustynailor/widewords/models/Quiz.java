@@ -23,12 +23,18 @@ public class Quiz implements Parcelable {
     private ArrayList<Integer> mQuizQuestions;
     //quiz answers (1 = correct, 0 = incorrect)
     private ArrayList<Integer> mQuizQuestionResults;
+    //quiz questions correct count
+    private ArrayList<Integer> mQuizQuestionCorrectCount;
+    //quiz questions Incorrect count
+    private ArrayList<Integer> mQuizQuestionIncorrectCount;
 
 
     //empty constructor
     public Quiz() {
         mQuizQuestions = new ArrayList<>();
         mQuizQuestionResults = new ArrayList<>();
+        mQuizQuestionCorrectCount = new ArrayList<>();
+        mQuizQuestionIncorrectCount = new ArrayList<>();
     }
 
 
@@ -40,6 +46,10 @@ public class Quiz implements Parcelable {
         in.readList(mQuizQuestions, Integer.class.getClassLoader());
         mQuizQuestionResults = new ArrayList<Integer>();
         in.readList(mQuizQuestionResults, Integer.class.getClassLoader());
+        mQuizQuestionCorrectCount = new ArrayList<Integer>();
+        in.readList(mQuizQuestionCorrectCount, Integer.class.getClassLoader());
+        mQuizQuestionIncorrectCount = new ArrayList<Integer>();
+        in.readList(mQuizQuestionIncorrectCount, Integer.class.getClassLoader());
     }
 
     @Override
@@ -49,6 +59,8 @@ public class Quiz implements Parcelable {
         dest.writeInt(mQuestionPosition);
         dest.writeList(mQuizQuestions);
         dest.writeList(mQuizQuestionResults);
+        dest.writeList(mQuizQuestionCorrectCount);
+        dest.writeList(mQuizQuestionIncorrectCount);
     }
 
     @Override
@@ -115,6 +127,22 @@ public class Quiz implements Parcelable {
 
     public void setQuizQuestionResults(ArrayList<Integer> quizQuestionResults) {
         mQuizQuestionResults = quizQuestionResults;
+    }
+
+    public ArrayList<Integer> getQuizQuestionCorrectCount() {
+        return mQuizQuestionCorrectCount;
+    }
+
+    public void setQuizQuestionCorrectCount(ArrayList<Integer> quizQuestionCorrectCount) {
+        mQuizQuestionCorrectCount = quizQuestionCorrectCount;
+    }
+
+    public ArrayList<Integer> getQuizQuestionIncorrectCount() {
+        return mQuizQuestionIncorrectCount;
+    }
+
+    public void setQuizQuestionIncorrectCount(ArrayList<Integer> quizQuestionIncorrectCount) {
+        mQuizQuestionIncorrectCount = quizQuestionIncorrectCount;
     }
 
     public boolean nextQuestion(){
