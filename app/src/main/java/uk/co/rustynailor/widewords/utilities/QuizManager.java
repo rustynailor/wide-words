@@ -39,6 +39,8 @@ public class QuizManager {
     ArrayList<Word> chosenWords = new ArrayList<>();
     Random randomGenerator = new Random();
 
+    public static int NUMBER_OF_QUIZ_QUESTIONS = 2;
+
 
     //build a new ten question Quiz
     public Quiz buildQuiz(Context context){
@@ -83,7 +85,7 @@ public class QuizManager {
         }
 
         //number of questions in quiz
-        int questionCount = (c.getCount() >= 10) ?  10 : c.getCount();
+        int questionCount = (c.getCount() >= NUMBER_OF_QUIZ_QUESTIONS ?  NUMBER_OF_QUIZ_QUESTIONS : c.getCount());
         //TODO: questioncount == 0...
 
         c.close();
@@ -162,6 +164,8 @@ public class QuizManager {
             quiz.addQuizQuestionId(quizQuestion.getId());
             //add result pointer set to 0
             quiz.getQuizQuestionResults().add(0);
+            quiz.getQuizQuestionIncorrectCount().add(0);
+            quiz.getQuizQuestionCorrectCount().add(0);
 
         } //end quiz question loop
 
