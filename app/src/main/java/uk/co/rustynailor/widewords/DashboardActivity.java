@@ -46,14 +46,6 @@ public class DashboardActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
                 WORD_COLUMNS, null, null, null);
 
-        //TextView hello = (TextView) findViewById(R.id.hello);
-
-        if(cursor.getColumnCount() > 0){
-            while(cursor.moveToNext()){
-          //      hello.append(" " + cursor.getString(COL_WORD_WORD));
-            }
-        }
-
         cursor.close();
 
         FrameLayout startQuiz = (FrameLayout) findViewById(R.id.start_quiz);
@@ -61,6 +53,16 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        FrameLayout startLearn = (FrameLayout) findViewById(R.id.start_learning);
+        startLearn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LearnActivity.class);
                 startActivity(intent);
             }
         });

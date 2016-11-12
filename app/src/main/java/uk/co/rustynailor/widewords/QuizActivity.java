@@ -21,7 +21,6 @@ public class QuizActivity extends AppCompatActivity {
         QuizManager quizManager = new QuizManager();
         Quiz quiz = quizManager.buildQuiz(this);
 
-        //Todo: resume underway quiz (show options - resume or new)
 
         Intent intent = new Intent(this, QuizQuestionActivity.class);
         intent.putExtra(getString(R.string.quiz), quiz);

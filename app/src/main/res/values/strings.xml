@@ -16,4 +16,7 @@
     <string name="title_activity_learn">LearnActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_learn_word">LearnWordActivity</string>
+    <string name="all_words">ALL WORDS</string>
+    <string name="new_words">NEW WORDS</string>
+    <string name="mastered_words">MASTERED WORDS</string>
 </resources>
