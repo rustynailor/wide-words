@@ -22,6 +22,14 @@
     <string name="mastered_words">MASTERED WORDS</string>
     <string name="all_words_with_count">ALL WORDS (<xliff:g id="allcount">%1$d</xliff:g>)</string>
     <string name="new_words_with_count">NEW WORDS (<xliff:g id="newcount">%1$d</xliff:g>)</string>
+    <string name="in_progress_message"><xliff:g id="newcount">%1$d</xliff:g>/<xliff:g id="totalcount">%2$d</xliff:g></string>
     <string name="mastered_words_with_count">MASTERED WORDS (<xliff:g id="masteredcount">%1$d</xliff:g>)</string>
     <string name="quiz_toolbar">Quiz (<xliff:g id="quizcount">%1$d</xliff:g>/<xliff:g id="quizTotal">%2$d</xliff:g>)</string>
+    <string name="welcome_message">Welcome to Wide Words.<![CDATA[<br /><br />]]>This app will help you master
+        <xliff:g id="quizcount">%1$d</xliff:g> challenging words.<![CDATA[<br /><br />Use <b>LEARN WORDS</b>
+        to review the words and their definitions.<br /><br />When you\'re ready take the <b>QUIZ</b>.]]></string>
+    <string name="completion_message">Congratulations - you have mastered all <xliff:g id="quizcount">%1$d</xliff:g> words.
+        <![CDATA[<br /><br />You are well on the way to becoming a fully fledged sesquipedalian.]]></string>
+    <string name="so_far_you_have_mastered">So far you have mastered</string>
+    <string name="words">words</string>
 </resources>

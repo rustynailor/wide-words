@@ -4,17 +4,28 @@ import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.RemoteException;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import uk.co.rustynailor.widewords.data.ColumnProjections;
 import uk.co.rustynailor.widewords.data.InitialData;
 import uk.co.rustynailor.widewords.data.WideWordsDatabase;
 import uk.co.rustynailor.widewords.data.WideWordsProvider;
@@ -22,7 +33,14 @@ import uk.co.rustynailor.widewords.data.WordColumns;
 
 import static uk.co.rustynailor.widewords.data.ColumnProjections.WORD_COLUMNS;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    //loader constant
+    private static final int ALL_WORDS_LOADER_ID = 1;
+
+    private TextView mWelcomeText;
+    private LinearLayout mProgressBannner;
+    private TextView mProgressCount;
 
 
     @Override
@@ -33,18 +51,9 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Cursor c = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
-                null, null, null, null);
-        Log.i("Dashboard", "cursor count: " + c.getCount());
-        if (c == null || c.getCount() == 0){
-            insertData();
-        }
-        c.close();
-
-        Cursor cursor = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
-                WORD_COLUMNS, null, null, null);
-
-        cursor.close();
+        mWelcomeText = (TextView) findViewById(R.id.welcome_text);
+        mProgressBannner = (LinearLayout) findViewById(R.id.progressBanner);
+        mProgressCount = (TextView) findViewById(R.id.progressCount);
 
         FrameLayout startQuiz = (FrameLayout) findViewById(R.id.start_quiz);
         startQuiz.setOnClickListener(new View.OnClickListener() {
@@ -64,27 +73,74 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        //do we have mastered words? Check database...
+        getSupportLoaderManager().initLoader(ALL_WORDS_LOADER_ID, null, this);
     }
 
-    public void insertData(){
-        ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>(InitialData.initialWords.length);
 
-        for (int i = 0; i<InitialData.initialWords.length; i++){
-            ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
-                    WideWordsProvider.Words.CONTENT_URI);
-            builder.withValue(WordColumns.WORD, InitialData.initialWords[i]);
-            builder.withValue(WordColumns.DEFINITION, InitialData.initialdefinitions[i]);
-            builder.withValue(WordColumns.INCORRECT_COUNT, 0);
-            builder.withValue(WordColumns.CORRECT_COUNT, 0);
-            batchOperations.add(builder.build());
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case ALL_WORDS_LOADER_ID:
+                // Returns a new CursorLoader of all words
+                return new CursorLoader(
+                        this,   // Parent activity context
+                        WideWordsProvider.Words.CONTENT_URI,        // Table to query
+                        ColumnProjections.WORD_COLUMNS,     // Projection to return
+                        null,            // selection clause
+                        null,            //selection arguments
+                        null             // Default sort order
+                );
+            default:
+                // An invalid id was passed in
+                return null;
         }
+    }
 
-        try{
-           getContentResolver().applyBatch(WideWordsProvider.AUTHORITY, batchOperations);
-        } catch(RemoteException | OperationApplicationException e){
-            Log.e("Dashboard", "Error applying batch insert", e);
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        //count words - new words, mastered words and all words
+        int masteredCount = 0;
+        int totalWords = data.getCount();
+
+        while (data.moveToNext()){
+            if(data.getInt(ColumnProjections.COL_WORD_CORRECT_COUNT) >= 3){
+                masteredCount++;
+            }
+        }
+        int newWords = totalWords - masteredCount;
+
+        if(masteredCount == 0){
+            mWelcomeText.setText(fromHtml(getString(R.string.welcome_message, totalWords)));
+            mProgressBannner.setVisibility(View.INVISIBLE);
+            mWelcomeText.setVisibility(View.VISIBLE);
+        } else if(masteredCount < totalWords){
+            mProgressCount.setText(getString(R.string.in_progress_message, masteredCount, totalWords));
+            mProgressBannner.setVisibility(View.VISIBLE);
+            mWelcomeText.setVisibility(View.INVISIBLE);
+        } else {
+            mWelcomeText.setText(fromHtml(getString(R.string.completion_message, totalWords)));
+            mProgressBannner.setVisibility(View.INVISIBLE);
+            mWelcomeText.setVisibility(View.VISIBLE);
         }
 
     }
 
+    //used to provide inline formatting - based on SO post:
+    //http://stackoverflow.com/questions/37904739/html-fromhtml-deprecated-in-android-n
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String source) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(source);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 }

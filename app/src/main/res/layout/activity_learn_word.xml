@@ -42,7 +42,8 @@
                 android:textColor="@android:color/white"
                 android:textSize="36sp"
                 android:textStyle="normal|bold"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:layout_marginEnd="20dp"/>
         </FrameLayout>
         <FrameLayout
             android:layout_width="match_parent"
