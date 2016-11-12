@@ -10,4 +10,7 @@
     <string name="words_mastered">" words mastered"</string>
     <string name="you_have">"You have "</string>
     <string name="words_left_to_master">" words left to master"</string>
+    <string name="quiz">quiz</string>
+    <string name="select_a_correct_definition_for">Select a correct definition for:</string>
+    <string name="this_quiz_you_scored">This quiz, you scored:</string>
 </resources>

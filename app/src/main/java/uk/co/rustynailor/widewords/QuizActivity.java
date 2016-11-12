@@ -23,11 +23,8 @@ public class QuizActivity extends AppCompatActivity {
 
         //Todo: resume underway quiz (show options - resume or new)
 
-        //bundle quiz ans pass to quiz questions
-        Log.d("TEST", "Quiz created");
-
         Intent intent = new Intent(this, QuizQuestionActivity.class);
-        intent.putExtra("quiz", quiz);
+        intent.putExtra(getString(R.string.quiz), quiz);
         startActivity(intent);
         finish();
     }
