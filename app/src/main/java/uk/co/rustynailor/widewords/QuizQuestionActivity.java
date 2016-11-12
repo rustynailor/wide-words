@@ -31,6 +31,8 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     private CountDownTimer mCountDownTimer;
     private QuizQuestionActivity mContext;
 
+    private Toolbar mToolbar;
+
     private static final int QUESTION_LOADER_ID = 1;
 
     public static final String TAG = "QuestionActivity";
@@ -42,8 +44,8 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
         mContext = this;
 
         setContentView(R.layout.activity_quiz_question);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         //initialise textviews
         mWord = (TextView) findViewById(R.id.word);
@@ -114,8 +116,6 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
     private void populateQuiz(Cursor cursor){
 
-        //update
-        int currentQuizQuestionId = cursor.getInt(ColumnProjections.COL_QQ_ID);
         mCurrentWordCorrectCount = cursor.getInt(ColumnProjections.COL_QQ_CORRECT_COUNT);
         mCurrentWordIncorrectCount = cursor.getInt(ColumnProjections.COL_QQ_INCORRECT_COUNT);
 
@@ -146,6 +146,10 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
                 wrongDefinitions.remove(0);
             }
         }
+
+        //update toolbar
+        mToolbar.setTitle(getString(R.string.quiz_toolbar, mQuiz.getQuestionPosition()+1, mQuiz.getQuizQuestions().size()));
+
         //start countdown timer
         startTimer();
     }

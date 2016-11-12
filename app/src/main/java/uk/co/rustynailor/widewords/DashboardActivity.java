@@ -33,8 +33,6 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         Cursor c = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
                 null, null, null, null);
         Log.i("Dashboard", "cursor count: " + c.getCount());

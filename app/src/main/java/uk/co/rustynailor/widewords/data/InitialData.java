@@ -57,7 +57,7 @@ public class InitialData {
             "Prolepsis",
             "Pullulate",
             "Quiddity",
-            "Rectilinear",
+            "Rectilinear",/*
             "Reticulation",
             "Saccade",
             "Sesquipedalian",
@@ -67,7 +67,7 @@ public class InitialData {
             "Stygian",
             "Tenebrous",
             "Tumulus",
-            "Verisimilitude"};
+            "Verisimilitude"*/};
 
 
     public static String[] initialdefinitions = {
@@ -121,7 +121,7 @@ public class InitialData {
             "Anticipating and answering objections in advance.",
             "Become abundant; increase rapidly.",
             "An evasion of the point of an argument by raising irrelevant distinctions or objections.",
-            "Characterized by a straight line or lines.",
+            "Characterized by a straight line or lines."/*,
             "An arrangement resembling a net or network; he formation of a network of cracks or wrinkles in a photographic emulsion.",
             "A rapid, jerky movement of the eyes between positions of rest.",
             "Given to the overuse of long words.",
@@ -131,5 +131,5 @@ public class InitialData {
             "Hellish; dark and dismal as of the rivers Acheron and Styx in Hades.",
             "Dark and gloomy.",
             "A heap of earth placed over prehistoric tombs.",
-            "The appearance of truth; the quality of seeming to be true."};
+            "The appearance of truth; the quality of seeming to be true."*/};
 }

@@ -47,7 +47,15 @@ public class QuizManager {
     public static final int LEARN_TYPE_NEW = 2;
     public static final int LEARN_TYPE_MASTERED = 3;
 
-    //build a new ten question Quiz
+
+    //reset word counts - set all to 0
+    public void resetCounts(Context context){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(WordColumns.CORRECT_COUNT, 0);
+        context.getContentResolver().update(WideWordsProvider.Words.CONTENT_URI, contentValues, null, null);
+    }
+
+    //build a new Learn list
     public LearnList buildList(Context context, int learnType){
         LearnList learnList = new LearnList();
         String query;
