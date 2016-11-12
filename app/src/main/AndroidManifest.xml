@@ -48,6 +48,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
         </activity>
+        <activity
+            android:name=".LearnActivity"
+            android:label="@string/title_activity_learn"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".LearnWordActivity"
+            android:label="@string/title_activity_learn_word"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

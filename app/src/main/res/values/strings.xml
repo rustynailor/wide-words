@@ -13,4 +13,7 @@
     <string name="quiz">quiz</string>
     <string name="select_a_correct_definition_for">Select a correct definition for:</string>
     <string name="this_quiz_you_scored">This quiz, you scored:</string>
+    <string name="title_activity_learn">LearnActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_learn_word">LearnWordActivity</string>
 </resources>
