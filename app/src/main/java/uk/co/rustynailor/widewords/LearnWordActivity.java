@@ -45,10 +45,11 @@ public class LearnWordActivity extends AppCompatActivity implements LoaderManage
         super.onCreate(savedInstanceState);
 
         mContext = this;
-
         setContentView(R.layout.activity_learn_word);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mWord = (TextView) findViewById(R.id.word_container);
         mDefinition = (TextView) findViewById(R.id.definition_container);
