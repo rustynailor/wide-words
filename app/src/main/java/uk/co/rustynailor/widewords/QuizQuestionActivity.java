@@ -35,6 +35,8 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
     private static final int QUESTION_LOADER_ID = 1;
 
+    public static final String TAG = "QuestionActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +61,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         mCountdown = (TextView) findViewById(R.id.countdown);
 
-        mQuiz = (Quiz) getIntent().getParcelableExtra("quiz");
+        mQuiz = (Quiz) getIntent().getParcelableExtra(getString(R.string.quiz));
         getSupportLoaderManager().initLoader(QUESTION_LOADER_ID, null, this);
 
 
@@ -97,7 +99,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
             public void onFinish() {
                 mCountdown.setText("-");
                 stopTimer();
-                Log.e("TAG", "Incorrect Answer");
+                Log.d(TAG, "Question timed out");
                 incorrectAnswer();
                 showAnswer();
                 nextQuestion();
@@ -204,7 +206,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     }
 
     private void correctAnswer() {
-        Log.e("TAG", "Correct Answer");
+        Log.d(TAG, "Correct Answer");
         mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 1);
         mCurrentWordCorrectCount++;
         mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);
@@ -212,7 +214,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     }
 
     private void incorrectAnswer() {
-        Log.e("TAG", "Incorrect Answer");
+        Log.d(TAG, "Incorrect Answer");
         mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 0);
         mCurrentWordIncorrectCount++;
         mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);
@@ -221,7 +223,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
     private void nextQuestion() {
 
-        final CountDownTimer nextQuestionCountdown = new CountDownTimer(3000, 1000) {
+        final CountDownTimer nextQuestionCountdown = new CountDownTimer(15000, 1000) {
 
             @Override
             public void onTick(long l) {
@@ -231,9 +233,8 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
             public void onFinish() {
                 if(mQuiz.nextQuestion() == false){
                     stopTimer();
-                    //saveAnswer(mQuiz.getQuestionPosition());
                     Intent intent = new Intent(mContext, ResultsActivity.class);
-                    intent.putExtra("quiz", mQuiz);
+                    intent.putExtra(getString(R.string.quiz), mQuiz);
                     startActivity(intent);
                     finish();
                 } else {

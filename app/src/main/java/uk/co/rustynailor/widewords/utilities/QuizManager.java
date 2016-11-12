@@ -39,7 +39,7 @@ public class QuizManager {
     ArrayList<Word> chosenWords = new ArrayList<>();
     Random randomGenerator = new Random();
 
-    public static int NUMBER_OF_QUIZ_QUESTIONS = 5;
+    public static int NUMBER_OF_QUIZ_QUESTIONS = 10;
 
 
     //build a new ten question Quiz
