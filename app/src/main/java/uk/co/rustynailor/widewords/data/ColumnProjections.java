@@ -11,7 +11,9 @@ public class ColumnProjections {
     public static final String[] WORD_COLUMNS = {
             WideWordsDatabase.WORDS + "." + WordColumns._ID,
             WideWordsDatabase.WORDS + "." + WordColumns.DEFINITION,
-            WideWordsDatabase.WORDS + "." + WordColumns.WORD
+            WideWordsDatabase.WORDS + "." + WordColumns.WORD,
+            WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT
+
     };
 
 
@@ -20,6 +22,7 @@ public class ColumnProjections {
     public static final int COL_WORD_ID = 0;
     public static final int COL_WORD_DEFINITION = 1;
     public static final int COL_WORD_WORD = 2;
+    public static final int COL_WORD_CORRECT_COUNT = 3;
 
 
     //quiz question with joins to words and definitions

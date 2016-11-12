@@ -115,8 +115,6 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
                 // Returns a new CursorLoader for unmastered words
                 String query =  WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT + " <  ?";
                 String[] params =  {"3"};
-                Cursor c = getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
-                        WORD_COLUMNS, query, params, null);
 
                 return new CursorLoader(
                         this,   // Parent activity context

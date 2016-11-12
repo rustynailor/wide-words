@@ -11,6 +11,8 @@ import uk.co.rustynailor.widewords.utilities.QuizManager;
 
 public class QuizActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
