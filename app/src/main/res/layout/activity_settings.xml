@@ -22,14 +22,69 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_settings"/>
+    <LinearLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryLight">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/word_container"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="normal"
+                android:gravity="center"
+                android:text="@string/widewords_v1_0"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="24sp"
+                android:background="@drawable/ww_button_background"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:id="@+id/reset_words"
+                android:text="@string/reset_mastered_words"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/ww_button_background"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:id="@+id/download_words"
+                android:text="@string/check_for_updated_words"
+                android:layout_marginBottom="20dp"
+               />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
