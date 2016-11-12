@@ -136,14 +136,16 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         //loop through answers setting up textview
         for(int i=0; i<mAnswers.size(); i++){
-            //reset background colors
-            mAnswers.get(i).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+
             mAnswers.get(i).setOnClickListener(this);
 
             if(i!= correctAnswerPosition) {
+                mAnswers.get(i).setBackground(getResources().getDrawable(R.drawable.quiz_wrong_button_background));
                 mAnswers.get(i).setText(wrongDefinitions.get(0));
                 mAnswers.get(i).setTag(getString(R.string.incorrect));
                 wrongDefinitions.remove(0);
+            }else {
+                mAnswers.get(i).setBackground(getResources().getDrawable(R.drawable.quiz_right_button_background));
             }
         }
 
