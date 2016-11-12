@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">Wide Words</string>
     <string name="learn_words">LEARN WORDS</string>
     <string name="quiz_me">QUIZ ME</string>
@@ -11,6 +11,7 @@
     <string name="you_have">"You have "</string>
     <string name="words_left_to_master">" words left to master"</string>
     <string name="quiz">quiz</string>
+    <string name="learn_list">learn_list</string>
     <string name="select_a_correct_definition_for">Select a correct definition for:</string>
     <string name="this_quiz_you_scored">This quiz, you scored:</string>
     <string name="title_activity_learn">LearnActivity</string>
@@ -19,4 +20,8 @@
     <string name="all_words">ALL WORDS</string>
     <string name="new_words">NEW WORDS</string>
     <string name="mastered_words">MASTERED WORDS</string>
+    <string name="all_words_with_count">ALL WORDS (<xliff:g id="allcount">%1$d</xliff:g>)</string>
+    <string name="new_words_with_count">NEW WORDS (<xliff:g id="newcount">%1$d</xliff:g>)</string>
+    <string name="mastered_words_with_count">MASTERED WORDS (<xliff:g id="masteredcount">%1$d</xliff:g>)</string>
+
 </resources>

@@ -25,10 +25,8 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     private Quiz mQuiz;
     private int mCurrentWordCorrectCount;
     private int mCurrentWordIncorrectCount;
-    private int mCurrentQuizQuestionId;
     private TextView mWord;
     private ArrayList<TextView> mAnswers;
-    private int mCorrectAnswerPosition;
     private TextView mCountdown;
     private CountDownTimer mCountDownTimer;
     private QuizQuestionActivity mContext;
@@ -88,7 +86,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         mCountdown.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
-        mCountDownTimer = new CountDownTimer(5000, 1000) {
+        mCountDownTimer = new CountDownTimer(15000, 1000) {
             public void onTick(long millisUntilFinished) {
                 mCountdown.setText(millisUntilFinished / 1000 + "");
                 if(millisUntilFinished < 3000){
@@ -117,19 +115,19 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     private void populateQuiz(Cursor cursor){
 
         //update
-        mCurrentQuizQuestionId = cursor.getInt(ColumnProjections.COL_QQ_ID);
+        int currentQuizQuestionId = cursor.getInt(ColumnProjections.COL_QQ_ID);
         mCurrentWordCorrectCount = cursor.getInt(ColumnProjections.COL_QQ_CORRECT_COUNT);
         mCurrentWordIncorrectCount = cursor.getInt(ColumnProjections.COL_QQ_INCORRECT_COUNT);
 
         Random randomGenerator = new Random();
         //randomly set position of correct word
-        mCorrectAnswerPosition = randomGenerator.nextInt(4);
+        int correctAnswerPosition = randomGenerator.nextInt(4);
 
 
         mWord.setText(cursor.getString(ColumnProjections.COL_QQ_WORD));
 
-        mAnswers.get(mCorrectAnswerPosition).setText(cursor.getString(ColumnProjections.COL_QQ_DEFINITION));
-        mAnswers.get(mCorrectAnswerPosition).setTag(getString(R.string.correct));
+        mAnswers.get(correctAnswerPosition).setText(cursor.getString(ColumnProjections.COL_QQ_DEFINITION));
+        mAnswers.get(correctAnswerPosition).setTag(getString(R.string.correct));
 
         ArrayList<String> wrongDefinitions = new ArrayList<>();
         wrongDefinitions.add(cursor.getString(ColumnProjections.COL_QQ_WRONG_1));
@@ -142,7 +140,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
             mAnswers.get(i).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             mAnswers.get(i).setOnClickListener(this);
 
-            if(i!=mCorrectAnswerPosition) {
+            if(i!= correctAnswerPosition) {
                 mAnswers.get(i).setText(wrongDefinitions.get(0));
                 mAnswers.get(i).setTag(getString(R.string.incorrect));
                 wrongDefinitions.remove(0);
@@ -223,7 +221,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
     private void nextQuestion() {
 
-        final CountDownTimer nextQuestionCountdown = new CountDownTimer(15000, 1000) {
+        final CountDownTimer nextQuestionCountdown = new CountDownTimer(3000, 1000) {
 
             @Override
             public void onTick(long l) {

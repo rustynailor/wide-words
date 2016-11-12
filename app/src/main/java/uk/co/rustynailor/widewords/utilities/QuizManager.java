@@ -18,6 +18,7 @@ import uk.co.rustynailor.widewords.data.WideWordsDatabase;
 import uk.co.rustynailor.widewords.data.WideWordsProvider;
 import uk.co.rustynailor.widewords.data.WordColumns;
 import uk.co.rustynailor.widewords.enums.QuizQuestionResult;
+import uk.co.rustynailor.widewords.models.LearnList;
 import uk.co.rustynailor.widewords.models.Quiz;
 import uk.co.rustynailor.widewords.models.QuizQuestion;
 import uk.co.rustynailor.widewords.models.Word;
@@ -40,6 +41,44 @@ public class QuizManager {
     Random randomGenerator = new Random();
 
     public static int NUMBER_OF_QUIZ_QUESTIONS = 10;
+
+    //type of learning to undertake
+    public static final int LEARN_TYPE_ALL = 1;
+    public static final int LEARN_TYPE_NEW = 2;
+    public static final int LEARN_TYPE_MASTERED = 3;
+
+    //build a new ten question Quiz
+    public LearnList buildList(Context context, int learnType){
+        LearnList learnList = new LearnList();
+        String query;
+        String[] params = new String[0];
+        switch(learnType){
+            case LEARN_TYPE_NEW:
+                query =  WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT + " <  ?";
+                params[0] =  "3";
+                break;
+            case LEARN_TYPE_MASTERED:
+                query =  WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT + " >=  ?";
+                params[0] =  "3";
+                break;
+            default:
+                query = null;
+                params =  null;
+                break;
+        }
+
+        Cursor c = context.getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
+                WORD_COLUMNS, query, params, null);
+
+        while (c.moveToNext()) {
+            learnList.getWordList().add(c.getInt(COL_WORD_ID));
+        }
+
+        learnList.setWordListPosition(0);
+
+        return learnList;
+    }
+
 
 
     //build a new ten question Quiz
