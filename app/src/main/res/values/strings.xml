@@ -35,4 +35,5 @@
     <string name="widewords_v1_0">WideWords v1.0</string>
     <string name="reset_mastered_words">Reset mastered words</string>
     <string name="check_for_updated_words">Check for updated words</string>
+    <string name="settings">Settings</string>
 </resources>
