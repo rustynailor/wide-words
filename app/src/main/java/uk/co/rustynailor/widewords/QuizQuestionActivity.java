@@ -1,6 +1,5 @@
 package uk.co.rustynailor.widewords;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,23 +13,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 import uk.co.rustynailor.widewords.data.ColumnProjections;
-import uk.co.rustynailor.widewords.data.QuizQuestionColumns;
 import uk.co.rustynailor.widewords.data.WideWordsProvider;
-import uk.co.rustynailor.widewords.data.WordColumns;
-import uk.co.rustynailor.widewords.enums.QuizQuestionResult;
 import uk.co.rustynailor.widewords.models.Quiz;
 
 public class QuizQuestionActivity extends AppCompatActivity  implements View.OnClickListener, LoaderCallbacks<Cursor> {
 
     private Quiz mQuiz;
-    private int mCurrentWordId;
     private int mCurrentWordCorrectCount;
     private int mCurrentWordIncorrectCount;
     private int mCurrentQuizQuestionId;
@@ -73,6 +65,12 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //need to cancel timer here or continues running
+        stopTimer();
+    }
 
     public void showAnswer(){
         for(TextView view : mAnswers){
@@ -98,6 +96,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
             public void onFinish() {
                 mCountdown.setText("-");
+                stopTimer();
                 Log.e("TAG", "Incorrect Answer");
                 incorrectAnswer();
                 showAnswer();
@@ -115,13 +114,8 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
     private void populateQuiz(Cursor cursor){
 
-        //TODO: move save out to results activity
-        //first, update previous question in database
-        //saveAnswer(mQuiz.getQuestionPosition()-1);
-
         //update
         mCurrentQuizQuestionId = cursor.getInt(ColumnProjections.COL_QQ_ID);
-        mCurrentWordId = cursor.getInt(ColumnProjections.COL_QQ_WORD_ID);
         mCurrentWordCorrectCount = cursor.getInt(ColumnProjections.COL_QQ_CORRECT_COUNT);
         mCurrentWordIncorrectCount = cursor.getInt(ColumnProjections.COL_QQ_INCORRECT_COUNT);
 
@@ -152,7 +146,6 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
                 wrongDefinitions.remove(0);
             }
         }
-
         //start countdown timer
         startTimer();
     }
@@ -240,7 +233,6 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
                     stopTimer();
                     //saveAnswer(mQuiz.getQuestionPosition());
                     Intent intent = new Intent(mContext, ResultsActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("quiz", mQuiz);
                     startActivity(intent);
                     finish();
