@@ -131,12 +131,12 @@ public class LearnActivity extends AppCompatActivity implements LoaderManager.Lo
 
         //if there are new words and at least 1 mastered word, show new words button
         //(otherwise there is no point, as this is just all words)
-        if(newWords > 0 && masteredCount > 1){
+        if(newWords > 0 && masteredCount >= 1){
             mNewWords.setText(getString(R.string.new_words_with_count, newWords));
             mNewWords.setVisibility(View.VISIBLE);
         }
 
-        if(masteredCount > 1 && masteredCount != totalWords){
+        if(masteredCount >= 1 && masteredCount != totalWords){
             mMasteredWords.setText(getString(R.string.mastered_words_with_count, masteredCount));
             mMasteredWords.setVisibility(View.VISIBLE);
         }

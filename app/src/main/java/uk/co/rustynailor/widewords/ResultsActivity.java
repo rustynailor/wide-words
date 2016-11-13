@@ -71,29 +71,38 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
     public void saveAnswer(int position) {
         if (mQuiz.getQuestionPosition() > 0) {
 
-
-            //update correct count for word
-            ContentValues updateWord = new ContentValues();
-            updateWord.put(WordColumns.CORRECT_COUNT, mQuiz.getQuizQuestionCorrectCount().get(position));
-            updateWord.put(WordColumns.INCORRECT_COUNT, mQuiz.getQuizQuestionCorrectCount().get(position));
-            getContentResolver().update(WideWordsProvider.Words.withId(mQuiz.getQuizQuestions().get(position)), updateWord, null, null);
-
-
-            if(mQuiz.getQuizQuestionResults().get(position) == 1)
-            {
-
-                //update quiz question
-                ContentValues updateQuizQuestion = new ContentValues();
-                updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.CORRECT.toString());
-                getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mQuiz.getQuizQuestions().get(position)), updateQuizQuestion, null, null);
-
-            } else {
-                //update quiz question
-                ContentValues updateQuizQuestion = new ContentValues();
-                updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.INCORRECT.toString());
-                getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mQuiz.getQuizQuestions().get(position)), updateQuizQuestion, null, null);
-
+            //get word id
+            Cursor c = getContentResolver().query(WideWordsProvider.QuizQuestion.withId(mQuiz.getQuizQuestions().get(position)), ColumnProjections.QUIZ_QUESTION_COLUMNS, null, null, null);
+            int wordId = 0;
+            if(c.moveToFirst()){
+                wordId = c.getInt(ColumnProjections.COL_QQ_WORD_ID);
             }
+            c.close();
+
+
+            if(wordId > 0) {
+                //update correct count for word
+                ContentValues updateWord = new ContentValues();
+                updateWord.put(WordColumns.CORRECT_COUNT, mQuiz.getQuizQuestionCorrectCount().get(position));
+                updateWord.put(WordColumns.INCORRECT_COUNT, mQuiz.getQuizQuestionIncorrectCount().get(position));
+                getContentResolver().update(WideWordsProvider.Words.withId(wordId), updateWord, null, null);
+
+                if(mQuiz.getQuizQuestionResults().get(position) == 1)
+                {
+                    //update quiz question - correct
+                    ContentValues updateQuizQuestion = new ContentValues();
+                    updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.CORRECT.toString());
+                    getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mQuiz.getQuizQuestions().get(position)), updateQuizQuestion, null, null);
+
+                } else {
+                    //update quiz question - incorrect
+                    ContentValues updateQuizQuestion = new ContentValues();
+                    updateQuizQuestion.put(QuizQuestionColumns.QUIZ_QUESTION_RESULT, QuizQuestionResult.INCORRECT.toString());
+                    getContentResolver().update(WideWordsProvider.QuizQuestion.withId(mQuiz.getQuizQuestions().get(position)), updateQuizQuestion, null, null);
+
+                }
+            }
+
         }
     }
 
