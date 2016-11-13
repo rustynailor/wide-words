@@ -29,10 +29,10 @@ public final class WideWordsProvider {
 
     interface Path {
         String WORDS = "words";
-        String NEW_WORDS = "new_words";
         String QUIZZES = "quizzes";
         String QUIZ_QUESTIONS = "quiz_questions";
         String FROM_QUIZ = "from_quiz";
+        String FROM_QUIZ_QUESTION = "from_quiz_question";
     }
 
     private static Uri buildUri(String... paths) {
@@ -59,7 +59,6 @@ public final class WideWordsProvider {
         public static Uri withId(long id) {
             return buildUri(Path.WORDS, String.valueOf(id));
         }
-
 
     }
 

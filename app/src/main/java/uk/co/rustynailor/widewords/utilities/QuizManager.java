@@ -40,7 +40,7 @@ public class QuizManager {
     ArrayList<Word> chosenWords = new ArrayList<>();
     Random randomGenerator = new Random();
 
-    public static int NUMBER_OF_QUIZ_QUESTIONS = 10;
+    public static int NUMBER_OF_QUIZ_QUESTIONS = 5;
 
     //type of learning to undertake
     public static final int LEARN_TYPE_ALL = 1;
@@ -59,7 +59,7 @@ public class QuizManager {
     public LearnList buildList(Context context, int learnType){
         LearnList learnList = new LearnList();
         String query;
-        String[] params = new String[0];
+        String[] params = new String[1];
         switch(learnType){
             case LEARN_TYPE_NEW:
                 query =  WideWordsDatabase.WORDS + "." + WordColumns.CORRECT_COUNT + " <  ?";
