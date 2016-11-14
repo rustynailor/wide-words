@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
                 QuizManager quizManager = new QuizManager();
                 quizManager.resetCounts(mContext);
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(mContext, "Word counts reset.", duration);
+                Toast toast = Toast.makeText(mContext, R.string.word_counts_reset, duration);
                 toast.show();
             }
         });

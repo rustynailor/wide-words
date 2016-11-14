@@ -36,4 +36,6 @@
     <string name="reset_mastered_words">Reset mastered words</string>
     <string name="check_for_updated_words">Check for updated words</string>
     <string name="settings">Settings</string>
+    <string name="quiz_instructions"><![CDATA[When you start the quiz you will have 15 seconds to pick the correct definition for a word.\n\nOnce you have answered correctly three times for a word, you have mastered it - it will be moved to your mastered word list, and you will not be quizzed on it again.]]></string>
+    <string name="word_counts_reset">Word counts reset.</string>
 </resources>

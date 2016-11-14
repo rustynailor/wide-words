@@ -31,6 +31,7 @@ public final class WideWordsDatabase {
     @Table(QuizQuestionColumns.class)
     public static final String QUIZ_QUESTION = "quiz_questions";
 
+    //initial population of database
     @OnCreate
     public static void onCreate(Context context, SQLiteDatabase db) {
 

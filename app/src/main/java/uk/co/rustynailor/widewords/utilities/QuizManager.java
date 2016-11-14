@@ -133,8 +133,6 @@ public class QuizManager {
 
         //number of questions in quiz
         int questionCount = (c.getCount() >= NUMBER_OF_QUIZ_QUESTIONS ?  NUMBER_OF_QUIZ_QUESTIONS : c.getCount());
-        //TODO: questioncount == 0...
-
         c.close();
 
         //pick our test questions;
@@ -220,7 +218,6 @@ public class QuizManager {
 
     }
 
-    //TODO: method to restore quiz from database
 
     private Word getWrongWord(ArrayList<Word> usedWords){
         Word selectedWord = null;
