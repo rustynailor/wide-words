@@ -144,6 +144,6 @@ public class LearnActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+           //cursor not used after onLoadFinished so no action required
     }
 }
