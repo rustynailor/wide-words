@@ -25,6 +25,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -48,7 +53,6 @@ public class DashboardActivity extends AppCompatActivity implements LoaderManage
 
     private Context mContext;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,13 @@ public class DashboardActivity extends AppCompatActivity implements LoaderManage
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //initialise ads
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-9110651366020121~1522761095");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
 
         mWelcomeText = (TextView) findViewById(R.id.welcome_text);
         mProgressBannner = (LinearLayout) findViewById(R.id.progressBanner);
