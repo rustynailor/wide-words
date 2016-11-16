@@ -39,4 +39,6 @@
     <string name="quiz_instructions"><![CDATA[When you start the quiz you will have 15 seconds to pick the correct definition for a word.\n\nOnce you have answered correctly three times for a word, you have mastered it - it will be moved to your mastered word list, and you will not be quizzed on it again.]]></string>
     <string name="word_counts_reset">Word counts reset.</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="share">Share</string>
+    <string name="share_intent_string"><xliff:g id="word">%1$s</xliff:g> : <xliff:g id="definition">%2$s</xliff:g> - from WideWords for Android</string>
 </resources>
