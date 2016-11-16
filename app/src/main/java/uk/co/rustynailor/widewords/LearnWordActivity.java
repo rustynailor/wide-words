@@ -1,17 +1,22 @@
 package uk.co.rustynailor.widewords;
 
-import android.content.Context;
+
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -36,6 +41,7 @@ public class LearnWordActivity extends AppCompatActivity implements LoaderManage
     private TextView mPrevious;
 
     private LearnWordActivity mContext;
+    private ShareActionProvider mShareActionProvider;
 
 
     public static final String TAG = "LearnWordActivity";
@@ -88,6 +94,37 @@ public class LearnWordActivity extends AppCompatActivity implements LoaderManage
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.share_menu, menu);
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.action_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        //handle first load if content provider finishes first
+        if(!mWord.getText().equals("")){
+            setShareIntent();
+        }
+
+        // Return true to display menu
+        return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent() {
+        if (mShareActionProvider != null) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_intent_string, mWord.getText(), mDefinition.getText()));
+            sendIntent.setType("text/plain");
+            mShareActionProvider.setShareIntent(sendIntent);
+        }
+    }
+
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Loader loader =  new CursorLoader(
                 this,   // Parent activity context
@@ -108,6 +145,8 @@ public class LearnWordActivity extends AppCompatActivity implements LoaderManage
             //do something with data
             mWord.setText(data.getString(ColumnProjections.COL_WORD_WORD));
             mDefinition.setText(data.getString(ColumnProjections.COL_WORD_DEFINITION));
+            //update share intent
+            setShareIntent();
         }
         //if at start, hide back button
         if(mLearnList.getWordListPosition() == 0){
