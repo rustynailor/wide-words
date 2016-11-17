@@ -1,20 +1,24 @@
 package uk.co.rustynailor.widewords;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import uk.co.rustynailor.widewords.network.FetchWordsIntentService;
 import uk.co.rustynailor.widewords.utilities.QuizManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private Context mContext;
+    private Intent mServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
         downloadNewData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
+                mServiceIntent = new Intent(mContext, FetchWordsIntentService.class);
+                startService(mServiceIntent);
             }
         });
 

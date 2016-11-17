@@ -79,6 +79,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
         </activity>
+        <service
+            android:name=".network.FetchWordsIntentService"
+            android:exported="false"/>
     </application>
 
 </manifest>
