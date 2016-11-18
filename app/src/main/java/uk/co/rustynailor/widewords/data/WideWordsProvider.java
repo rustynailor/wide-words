@@ -29,6 +29,7 @@ public final class WideWordsProvider {
 
     interface Path {
         String WORDS = "words";
+        String WITH_WORD = "with_word";
         String QUIZZES = "quizzes";
         String QUIZ_QUESTIONS = "quiz_questions";
         String FROM_QUIZ = "from_quiz";
@@ -58,6 +59,16 @@ public final class WideWordsProvider {
                 pathSegment = 1)
         public static Uri withId(long id) {
             return buildUri(Path.WORDS, String.valueOf(id));
+        }
+
+        @InexactContentUri(
+                path = Path.WITH_WORD + "/*",
+                name = "WITH_WORD",
+                type = "vnd.android.cursor.item/word",
+                whereColumn = WordColumns.WORD,
+                pathSegment = 1)
+        public static Uri withWord(String word) {
+            return buildUri(Path.WITH_WORD, word);
         }
 
     }
