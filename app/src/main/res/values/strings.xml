@@ -41,4 +41,5 @@
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="share">Share</string>
     <string name="share_intent_string"><xliff:g id="word">%1$s</xliff:g> : <xliff:g id="definition">%2$s</xliff:g> - from WideWords for Android</string>
+    <string name="update_message">Update received from server: <xliff:g id="allcount">%1$d</xliff:g> words updated, <xliff:g id="allcount">%2$d</xliff:g> new words</string>
 </resources>
