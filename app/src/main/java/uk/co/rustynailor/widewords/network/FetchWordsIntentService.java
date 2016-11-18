@@ -34,6 +34,8 @@ public class FetchWordsIntentService extends IntentService {
     private int mUpdateCount = 0;
     private int mInsertCount = 0;
 
+    private boolean mUpdateFailed = false;
+
     public FetchWordsIntentService() {
         super(SERVICE_TAG);
     }
@@ -44,11 +46,16 @@ public class FetchWordsIntentService extends IntentService {
         //get json file
         String wordString = getStringFromService();
 
-        //update database
-        try {
-            getWordDataFromJson(wordString);
-        } catch (JSONException e) {
-            Log.e(SERVICE_TAG, "Error parsing JSON: " + wordString);
+        if(wordString == null){
+            mUpdateFailed = true;
+        } else {
+            //update database
+            try {
+                getWordDataFromJson(wordString);
+            } catch (JSONException e) {
+                mUpdateFailed = true;
+                Log.e(SERVICE_TAG, "Error parsing JSON: " + wordString);
+            }
         }
     }
 
@@ -93,6 +100,7 @@ public class FetchWordsIntentService extends IntentService {
             }
             wordJsonStr = buffer.toString();
         } catch (IOException e) {
+            mUpdateFailed = true;
             Log.e(SERVICE_TAG, "Error ", e);
             // If the code didn't successfully get the weather data, there's no point in attemping
             // to parse it.
@@ -160,7 +168,7 @@ public class FetchWordsIntentService extends IntentService {
 
         } catch (JSONException e) {
             Log.e(SERVICE_TAG, e.getMessage(), e);
-            e.printStackTrace();
+            mUpdateFailed = true;
         }
         return null;
 
@@ -168,7 +176,12 @@ public class FetchWordsIntentService extends IntentService {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, getString(R.string.update_message, mUpdateCount, mInsertCount), Toast.LENGTH_SHORT).show();
+        if(mUpdateFailed){
+            Toast.makeText(this, "Update from server failed. Please try again later.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.update_message, mUpdateCount, mInsertCount), Toast.LENGTH_SHORT).show();
+
+        }
         super.onDestroy();
     }
 
