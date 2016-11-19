@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:background="@color/colorAccent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:gravity="center">
 
         <TextView
@@ -30,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/colorAccent"
             android:contentDescription="@string/a_word_to_learn"
             android:text="@string/wide_words"
             android:textColor="@android:color/white"
@@ -60,6 +59,7 @@
 
         <ImageView
             android:src="@drawable/ic_autorenew_white_24px"
+            android:contentDescription="@string/refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
