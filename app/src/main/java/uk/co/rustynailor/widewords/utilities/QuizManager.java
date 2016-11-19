@@ -40,7 +40,7 @@ public class QuizManager {
     ArrayList<Word> chosenWords = new ArrayList<>();
     Random randomGenerator = new Random();
 
-    public static int NUMBER_OF_QUIZ_QUESTIONS = 5;
+    public static int NUMBER_OF_QUIZ_QUESTIONS = 10;
 
     //type of learning to undertake
     public static final int LEARN_TYPE_ALL = 1;
@@ -118,7 +118,6 @@ public class QuizManager {
         String[] params =  {"3"};
         Cursor c = context.getContentResolver().query(WideWordsProvider.Words.CONTENT_URI,
                 WORD_COLUMNS, query, params, null);
-        Log.i("QuizManager", "Words to master: " + c.getCount());
 
         //load cursor into arraylist of unanswered words
         while (c.moveToNext()){

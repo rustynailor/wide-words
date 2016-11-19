@@ -45,4 +45,10 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="dash">-</string>
+    <string name="definition_of_a_word">Definition of a word</string>
+    <string name="makes_learning_words_fun">Makes learning words fun</string>
+    <string name="a_word_to_learn">A word to learn</string>
+    <string name="wide_words">Wide Words</string>
+    <string name="widewords">WideWords</string>
+    <string name="new_word">New word</string>
 </resources>

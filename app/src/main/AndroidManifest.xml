@@ -89,6 +89,7 @@
         <receiver android:name=".WideWordsWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="uk.co.rustynailor.widewords.UPDATE_WORD_BUTTON" />
             </intent-filter>
 
             <meta-data
