@@ -40,7 +40,8 @@
             android:name=".QuizQuestionActivity"
             android:label="@string/title_activity_quiz"
             android:parentActivityName=".DashboardActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
@@ -74,7 +75,8 @@
         <activity
             android:name=".LearnWordActivity"
             android:label="@string/title_activity_learn_word"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
