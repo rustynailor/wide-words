@@ -34,6 +34,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     private Toolbar mToolbar;
 
     private static final int QUESTION_LOADER_ID = 1;
+    private static final long DEFAULT_COUNTDOWN_TIME_IN_MILLIS = 15000;
 
     public static final String TAG = "QuestionActivity";
 
@@ -61,17 +62,26 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         mCountdown = (TextView) findViewById(R.id.countdown);
 
-        mQuiz = (Quiz) getIntent().getParcelableExtra(getString(R.string.quiz));
-
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            // Restore from saved state
+            mQuiz = savedInstanceState.getParcelable(getString(R.string.quiz));
+        } else {
+            // retrieve from intent
+            mQuiz = (Quiz) getIntent().getParcelableExtra(getString(R.string.quiz));
+        }
 
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         //stop the timer running if we leave this activity
         stopTimer();
+        //save quiz in bundle
+        outState.putParcelable(getString(R.string.quiz), mQuiz);
+        super.onSaveInstanceState(outState);
     }
+
 
     @Override
     protected void onResume() {
@@ -101,18 +111,28 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         mCountdown.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
-        mCountDownTimer = new CountDownTimer(15000, 1000) {
+        long questionTime;
+
+        //are we starting from the full 15s, or is there a saved value to use?
+        if(mQuiz.getRemaining() > 0){
+            questionTime = mQuiz.getRemaining();
+        } else {
+            questionTime = DEFAULT_COUNTDOWN_TIME_IN_MILLIS;
+        }
+
+        mCountDownTimer = new CountDownTimer(questionTime, 1000) {
             public void onTick(long millisUntilFinished) {
                 mCountdown.setText(millisUntilFinished / 1000 + "");
+                mQuiz.setRemaining(millisUntilFinished);
                 if(millisUntilFinished < 3000){
                     mCountdown.setTextColor(getResources().getColor(R.color.incorrectRed));
                 }
             }
 
             public void onFinish() {
-                mCountdown.setText("-");
+                mCountdown.setText(R.string.dash);
+                mQuiz.setRemaining(0);
                 stopTimer();
-                Log.d(TAG, "Question timed out");
                 incorrectAnswer();
                 showAnswer();
                 nextQuestion();
@@ -206,6 +226,9 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         //stopTimer
         stopTimer();
+
+        //reset remaining ms count in quiz
+        mQuiz.setRemaining(0);
 
         //first, disable subsequent button presses by removing click listeners
         for(TextView answer : mAnswers){

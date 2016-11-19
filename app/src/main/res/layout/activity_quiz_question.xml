@@ -91,9 +91,7 @@
                 android:padding="2dp"
                 android:textSize="@dimen/question_text_size"
                 android:id="@+id/answer_1"
-                tools:text="A fleshy wrinkled and often brightly colored fold of skin hanging from the neck or throat of certain birds (chickens and turkeys) or lizards."
-
-               />
+                tools:text="A fleshy wrinkled and often brightly colored fold of skin hanging from the neck or throat of certain birds (chickens and turkeys) or lizards."/>
 
             <TextView
                 android:layout_width="match_parent"

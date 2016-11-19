@@ -8,12 +8,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
+        android:name=".WideWordsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".WideWordsApplication">
+        android:theme="@style/AppTheme">
         <provider
             android:name=".data.generated.WideWordsProvider"
             android:authorities="uk.co.rustynailor.widewords.data.WideWordsProvider"
@@ -47,6 +47,7 @@
         </activity>
         <activity
             android:name=".ResultsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_results"
             android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme">
@@ -56,9 +57,9 @@
         </activity>
         <activity
             android:name=".LearnActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_learn"
             android:parentActivityName=".DashboardActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -75,15 +76,25 @@
         <activity
             android:name=".LearnWordActivity"
             android:label="@string/title_activity_learn_word"
-            android:theme="@style/AppTheme"
-            >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.co.rustynailor.widewords.DashboardActivity"/>
         </activity>
+
         <service
             android:name=".network.FetchWordsIntentService"
             android:exported="false"/>
+
+        <receiver android:name=".WideWordsWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/wide_words_widget_info"/>
+        </receiver>
     </application>
 
 </manifest>
