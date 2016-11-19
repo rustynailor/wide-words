@@ -27,6 +27,8 @@ public class Quiz implements Parcelable {
     private ArrayList<Integer> mQuizQuestionCorrectCount;
     //quiz questions Incorrect count
     private ArrayList<Integer> mQuizQuestionIncorrectCount;
+    //retain countdown position
+    private long mRemaining;
 
 
     //empty constructor
@@ -42,6 +44,7 @@ public class Quiz implements Parcelable {
         mId = in.readInt();
         mStarted = in.readLong();
         mQuestionPosition = in.readInt();
+        mRemaining = in.readLong();
         mQuizQuestions = new ArrayList<Integer>();
         in.readList(mQuizQuestions, Integer.class.getClassLoader());
         mQuizQuestionResults = new ArrayList<Integer>();
@@ -57,6 +60,7 @@ public class Quiz implements Parcelable {
         dest.writeInt(mId);
         dest.writeLong(mStarted);
         dest.writeInt(mQuestionPosition);
+        dest.writeLong(mRemaining);
         dest.writeList(mQuizQuestions);
         dest.writeList(mQuizQuestionResults);
         dest.writeList(mQuizQuestionCorrectCount);
@@ -154,5 +158,13 @@ public class Quiz implements Parcelable {
             success =  true;
         }
         return success;
+    }
+
+    public long getRemaining() {
+        return mRemaining;
+    }
+
+    public void setRemaining(long remaining) {
+        mRemaining = remaining;
     }
 }
