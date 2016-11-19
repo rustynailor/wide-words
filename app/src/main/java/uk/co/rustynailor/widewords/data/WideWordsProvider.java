@@ -33,7 +33,6 @@ public final class WideWordsProvider {
         String QUIZZES = "quizzes";
         String QUIZ_QUESTIONS = "quiz_questions";
         String FROM_QUIZ = "from_quiz";
-        String FROM_QUIZ_QUESTION = "from_quiz_question";
     }
 
     private static Uri buildUri(String... paths) {
