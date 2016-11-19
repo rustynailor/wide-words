@@ -62,9 +62,22 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
         mCountdown = (TextView) findViewById(R.id.countdown);
 
         mQuiz = (Quiz) getIntent().getParcelableExtra(getString(R.string.quiz));
-        getSupportLoaderManager().initLoader(QUESTION_LOADER_ID, null, this);
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //stop the timer running if we leave this activity
+        stopTimer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //we init the loader here to make sure timer restarts on resume
+        getSupportLoaderManager().restartLoader(QUESTION_LOADER_ID, null, this);
     }
 
     @Override
@@ -210,7 +223,6 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     }
 
     private void correctAnswer() {
-        Log.d(TAG, "Correct Answer");
         mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 1);
         mCurrentWordCorrectCount++;
         mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);
@@ -218,7 +230,6 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     }
 
     private void incorrectAnswer() {
-        Log.d(TAG, "Incorrect Answer");
         mQuiz.getQuizQuestionResults().set(mQuiz.getQuestionPosition(), 0);
         mCurrentWordIncorrectCount++;
         mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);

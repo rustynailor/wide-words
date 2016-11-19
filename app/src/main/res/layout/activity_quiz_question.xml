@@ -50,9 +50,9 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="15"
+            android:layout_weight="12"
             android:background="@color/colorAccent"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="15dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -84,13 +84,14 @@
                 android:gravity="center"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:padding="5dp"
+                android:padding="2dp"
                 android:textSize="@dimen/question_text_size"
                 android:id="@+id/answer_1"
+                tools:text="A fleshy wrinkled and often brightly colored fold of skin hanging from the neck or throat of certain birds (chickens and turkeys) or lizards."
 
                />
 
@@ -101,11 +102,11 @@
                 android:gravity="center"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:padding="5dp"
+                android:padding="2dp"
                 android:textSize="@dimen/question_text_size"
                 android:id="@+id/answer_2"
                 />
@@ -117,11 +118,11 @@
                 android:gravity="center"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:padding="5dp"
+                android:padding="2dp"
                 android:textSize="@dimen/question_text_size"
                 android:id="@+id/answer_3"
                 />
@@ -133,11 +134,11 @@
                 android:gravity="center"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:padding="5dp"
+                android:padding="2dp"
                 android:textSize="@dimen/question_text_size"
                 android:id="@+id/answer_4"
                 />
