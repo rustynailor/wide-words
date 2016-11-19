@@ -68,7 +68,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
             mQuiz = savedInstanceState.getParcelable(getString(R.string.quiz));
         } else {
             // retrieve from intent
-            mQuiz = (Quiz) getIntent().getParcelableExtra(getString(R.string.quiz));
+            mQuiz = getIntent().getParcelableExtra(getString(R.string.quiz));
         }
 
     }

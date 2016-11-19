@@ -15,12 +15,12 @@ public enum QuizQuestionResult {
 
     private final String name;
 
-    private QuizQuestionResult(String s) {
+    QuizQuestionResult(String s) {
         name = s;
     }
 
     public boolean equalsName(String otherName) {
-        return (otherName == null) ? false : name.equals(otherName);
+        return otherName != null && name.equals(otherName);
     }
 
     public String toString() {

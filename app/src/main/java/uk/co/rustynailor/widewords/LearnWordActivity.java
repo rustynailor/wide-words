@@ -89,7 +89,7 @@ public class LearnWordActivity extends AppCompatActivity implements LoaderManage
             }
         });
 
-        mLearnList = (LearnList) getIntent().getParcelableExtra(getString(R.string.learn_list));
+        mLearnList = getIntent().getParcelableExtra(getString(R.string.learn_list));
         getSupportLoaderManager().initLoader(WORD_LOADER_ID, null, this);
     }
 

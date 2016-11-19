@@ -56,7 +56,7 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
-        mQuiz = (Quiz) getIntent().getParcelableExtra(getString(R.string.quiz));
+        mQuiz = getIntent().getParcelableExtra(getString(R.string.quiz));
 
         //save results to db
         for (int i = 0; i<mQuiz.getQuizQuestions().size(); i++){
