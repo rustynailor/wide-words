@@ -18,6 +18,7 @@ import java.util.Random;
 
 import uk.co.rustynailor.widewords.data.ColumnProjections;
 import uk.co.rustynailor.widewords.data.WideWordsProvider;
+import uk.co.rustynailor.widewords.enums.QuizStatus;
 import uk.co.rustynailor.widewords.models.Quiz;
 
 public class QuizQuestionActivity extends AppCompatActivity  implements View.OnClickListener, LoaderCallbacks<Cursor> {
@@ -29,12 +30,18 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     private ArrayList<TextView> mAnswers;
     private TextView mCountdown;
     private CountDownTimer mCountDownTimer;
+    private CountDownTimer mNextQuestionCountdownTimer;
     private QuizQuestionActivity mContext;
 
     private Toolbar mToolbar;
 
     private static final int QUESTION_LOADER_ID = 1;
     private static final long DEFAULT_COUNTDOWN_TIME_IN_MILLIS = 15000;
+    private static final long DEFAULT_NEXT_QUESTION_TIME_IN_MILLIS = 3000;
+    private static final long DEFAULT_COUNTDOWN_INTERVAL = 1000;
+    private static final long INTERVAL_FOR_WARNING_TEXT = 3000;
+    private static final long ONE_SECOND_IN_MS = 1000;
+
 
     public static final String TAG = "QuestionActivity";
 
@@ -77,6 +84,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
     protected void onSaveInstanceState(Bundle outState) {
         //stop the timer running if we leave this activity
         stopTimer();
+        stopNextQuestionTimer();
         //save quiz in bundle
         outState.putParcelable(getString(R.string.quiz), mQuiz);
         super.onSaveInstanceState(outState);
@@ -120,11 +128,11 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
             questionTime = DEFAULT_COUNTDOWN_TIME_IN_MILLIS;
         }
 
-        mCountDownTimer = new CountDownTimer(questionTime, 1000) {
+        mCountDownTimer = new CountDownTimer(questionTime, DEFAULT_COUNTDOWN_INTERVAL) {
             public void onTick(long millisUntilFinished) {
-                mCountdown.setText(String.valueOf(millisUntilFinished / 1000));
+                mCountdown.setText(String.valueOf(millisUntilFinished / ONE_SECOND_IN_MS));
                 mQuiz.setRemaining(millisUntilFinished);
-                if(millisUntilFinished < 3000){
+                if(millisUntilFinished < INTERVAL_FOR_WARNING_TEXT){
                     mCountdown.setTextColor(getResources().getColor(R.color.incorrectRed));
                 }
             }
@@ -141,12 +149,21 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
     }
 
+    //cancel question timer
     private void stopTimer(){
         if(mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
     }
 
+    //cancel next question timer
+    private void stopNextQuestionTimer(){
+        if(mNextQuestionCountdownTimer != null) {
+            mNextQuestionCountdownTimer.cancel();
+        }
+    }
+
+    //populate views with quiz question returned from the cursor
     private void populateQuiz(Cursor cursor){
 
         mCurrentWordCorrectCount = cursor.getInt(ColumnProjections.COL_QQ_CORRECT_COUNT);
@@ -185,8 +202,22 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
         //update toolbar
         mToolbar.setTitle(getString(R.string.quiz_toolbar, mQuiz.getQuestionPosition()+1, mQuiz.getQuizQuestions().size()));
 
-        //start countdown timer
-        startTimer();
+        //deal with quiz state - is  this  a complete question, or one underway?
+        switch(mQuiz.getQuizStatus()){
+            case IN_PROGRESS:
+                //start countdown timer
+                startTimer();
+                break;
+            default:
+                //question is either correct or incorrect - show answers, and start timer to go to next question
+                //make sure quiz timer is not running
+                stopTimer();
+                //show answer
+                showAnswer();
+                //start timer to go to next question
+                nextQuestion();
+        }
+
     }
 
 
@@ -250,6 +281,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
         mCurrentWordCorrectCount++;
         mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);
         mQuiz.getQuizQuestionIncorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordIncorrectCount);
+        mQuiz.setQuizStatus(QuizStatus.CORRECT);
     }
 
     private void incorrectAnswer() {
@@ -257,11 +289,16 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
         mCurrentWordIncorrectCount++;
         mQuiz.getQuizQuestionCorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordCorrectCount);
         mQuiz.getQuizQuestionIncorrectCount().set(mQuiz.getQuestionPosition(), mCurrentWordIncorrectCount);
+        mQuiz.setQuizStatus(QuizStatus.INCORRECT);
     }
 
+    //start timer to load next question
     private void nextQuestion() {
 
-        final CountDownTimer nextQuestionCountdown = new CountDownTimer(3000, 1000) {
+        //make sure timer is not already running
+        stopNextQuestionTimer();
+
+        mNextQuestionCountdownTimer = new CountDownTimer(DEFAULT_NEXT_QUESTION_TIME_IN_MILLIS, DEFAULT_COUNTDOWN_INTERVAL) {
 
             @Override
             public void onTick(long l) {
