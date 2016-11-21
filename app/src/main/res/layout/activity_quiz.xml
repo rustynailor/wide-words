@@ -56,7 +56,7 @@
                 android:id="@+id/mastered_instructions"
                 android:textColor="@android:color/white"
                 android:gravity="center"
-                android:text="You have mastered all words in the quiz.\n\nPress the reset quiz button below to reset the app and start again."
+                android:text="@string/complete_message"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:visibility="gone"/>
@@ -78,7 +78,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 android:id="@+id/start_quiz"
-                android:text="start quiz"
+                android:text="@string/start_quiz"
                 android:layout_marginBottom="20dp"
                 android:visibility="gone"/>
 
@@ -89,7 +89,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 android:id="@+id/reset_words"
-                android:text="Reset mastered words"
+                android:text="@string/reset_mastered"
                 android:layout_marginBottom="20dp"
                 android:visibility="gone"/>
 

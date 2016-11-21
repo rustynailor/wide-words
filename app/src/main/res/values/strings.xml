@@ -7,7 +7,7 @@
     <string name="incorrect">Incorrect</string>
     <string name="title_activity_results">Results</string>
     <string name="correct_with_space">"  correct"</string>
-    <string name="words_mastered">" words mastered"</string>
+    <string name="words_mastered">"<xliff:g id="allcount">%1$d</xliff:g> words mastered"</string>
     <string name="you_have">"You have "</string>
     <string name="words_left_to_master">" words left to master"</string>
     <string name="quiz">quiz</string>
@@ -52,4 +52,12 @@
     <string name="widewords">WideWords</string>
     <string name="new_word">New word</string>
     <string name="refresh">Refresh</string>
+    <string name="intro_text">Learn words by viewing definitions. Once you are feeling confident, take a quiz and see how many you can remember.</string>
+    <string name="back">BACK</string>
+    <string name="next">NEXT</string>
+    <string name="finish">FINISH</string>
+    <string name="complete_message">You have mastered all words in the quiz.\n\nPress the reset quiz button below to reset the app and start again.</string>
+    <string name="start_quiz">start quiz</string>
+    <string name="reset_mastered">Reset mastered words</string>
+    <string name="finish_quiz">FINISH</string>
 </resources>

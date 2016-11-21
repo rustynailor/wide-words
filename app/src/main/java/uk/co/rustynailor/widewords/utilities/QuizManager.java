@@ -82,6 +82,8 @@ public class QuizManager {
             learnList.getWordList().add(c.getInt(COL_WORD_ID));
         }
 
+        c.close();
+
         learnList.setWordListPosition(0);
 
         return learnList;

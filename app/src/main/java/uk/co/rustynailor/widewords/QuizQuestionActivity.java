@@ -122,7 +122,7 @@ public class QuizQuestionActivity extends AppCompatActivity  implements View.OnC
 
         mCountDownTimer = new CountDownTimer(questionTime, 1000) {
             public void onTick(long millisUntilFinished) {
-                mCountdown.setText(millisUntilFinished / 1000 + "");
+                mCountdown.setText(String.valueOf(millisUntilFinished / 1000));
                 mQuiz.setRemaining(millisUntilFinished);
                 if(millisUntilFinished < 3000){
                     mCountdown.setTextColor(getResources().getColor(R.color.incorrectRed));

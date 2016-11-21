@@ -162,7 +162,7 @@ public class ResultsActivity extends AppCompatActivity implements LoaderManager.
                 }
 
                 mResultsView.setText(correctCount + "/" + mQuiz.getQuizQuestionResults().size() + getString(R.string.correct_with_space));
-                mMasteredResultsView.setText(masteredCount + getString(R.string.words_mastered));
+                mMasteredResultsView.setText(getString(R.string.words_mastered, masteredCount));
                 break;
             case MASTERED_WORDS_LOADER_ID:
                 mMasteredRemainingView.setText(getString(R.string.you_have) + data.getCount() + getString(R.string.words_left_to_master));
