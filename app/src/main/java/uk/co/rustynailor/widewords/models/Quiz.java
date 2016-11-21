@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 import uk.co.rustynailor.widewords.enums.QuizQuestionResult;
+import uk.co.rustynailor.widewords.enums.QuizStatus;
 
 /**
  * Created by russellhicks on 25/10/2016.
@@ -29,6 +30,9 @@ public class Quiz implements Parcelable {
     private ArrayList<Integer> mQuizQuestionIncorrectCount;
     //retain countdown position
     private long mRemaining;
+    //quiz status - used to track position in quiz
+    private QuizStatus mQuizStatus;
+
 
 
     //empty constructor
@@ -37,6 +41,8 @@ public class Quiz implements Parcelable {
         mQuizQuestionResults = new ArrayList<>();
         mQuizQuestionCorrectCount = new ArrayList<>();
         mQuizQuestionIncorrectCount = new ArrayList<>();
+        //default value for Quiz status
+        mQuizStatus = QuizStatus.IN_PROGRESS;
     }
 
 
@@ -53,6 +59,11 @@ public class Quiz implements Parcelable {
         in.readList(mQuizQuestionCorrectCount, Integer.class.getClassLoader());
         mQuizQuestionIncorrectCount = new ArrayList<Integer>();
         in.readList(mQuizQuestionIncorrectCount, Integer.class.getClassLoader());
+        try {
+            mQuizStatus = QuizStatus.valueOf(in.readString());
+        } catch (IllegalArgumentException x) {
+            mQuizStatus = null;
+        }
     }
 
     @Override
@@ -65,6 +76,7 @@ public class Quiz implements Parcelable {
         dest.writeList(mQuizQuestionResults);
         dest.writeList(mQuizQuestionCorrectCount);
         dest.writeList(mQuizQuestionIncorrectCount);
+        dest.writeString((mQuizStatus == null) ? "" : mQuizStatus.name());
     }
 
     @Override
@@ -155,6 +167,7 @@ public class Quiz implements Parcelable {
             success =  false;
         } else {
             mQuestionPosition++;
+            mQuizStatus = QuizStatus.IN_PROGRESS;
             success =  true;
         }
         return success;
@@ -166,5 +179,13 @@ public class Quiz implements Parcelable {
 
     public void setRemaining(long remaining) {
         mRemaining = remaining;
+    }
+
+    public QuizStatus getQuizStatus() {
+        return mQuizStatus;
+    }
+
+    public void setQuizStatus(QuizStatus quizStatus) {
+        mQuizStatus = quizStatus;
     }
 }

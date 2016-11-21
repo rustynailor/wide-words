@@ -4,16 +4,16 @@ package uk.co.rustynailor.widewords.enums;
  * Created by russellhicks on 25/10/2016.
  */
 
-public enum QuizQuestionResult {
+public enum QuizStatus {
 
-    QUEUE ("QUEUE"),
+    IN_PROGRESS ("IN_PROGRESS"),
     CORRECT ("CORRECT"),
     INCORRECT ("INCORRECT");
 
 
     private final String name;
 
-    QuizQuestionResult(String s) {
+    QuizStatus(String s) {
         name = s;
     }
 
