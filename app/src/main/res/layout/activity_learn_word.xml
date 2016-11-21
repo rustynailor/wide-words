@@ -83,7 +83,7 @@
                 android:layout_marginStart="10dp"
                 android:textStyle="bold"
                 android:id="@+id/back_button"
-                android:text="BACK"/>
+                android:text="@string/back"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -98,7 +98,7 @@
                 android:layout_marginStart="10dp"
                 android:textStyle="bold"
                 android:id="@+id/next_button"
-                android:text="NEXT"/>
+                android:text="@string/next"/>
 
 
         <TextView
@@ -114,7 +114,7 @@
             android:layout_marginStart="10dp"
             android:textStyle="bold"
             android:id="@+id/finish_button"
-            android:text="FINISH"/>
+            android:text="@string/finish"/>
 
         </LinearLayout>
     </LinearLayout>

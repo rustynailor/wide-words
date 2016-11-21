@@ -43,7 +43,7 @@
                 android:textSize="22sp"
                 android:textStyle="normal"
                 android:gravity="center"
-                android:text="Learn words by viewing definitions.   Once you are feeling confident, take a quiz and see how many you can remember."
+                android:text="@string/intro_text"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
         </FrameLayout>
