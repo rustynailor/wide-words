@@ -12,19 +12,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    signingConfigs {
-        wideWordsSigningConfig {
-            keyAlias 'WidewordsKey'
-            keyPassword 'password'
-            storeFile file('../widewords-keystore.jks')
-            storePassword 'password'
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.wideWordsSigningConfig
         }
     }
 }
