@@ -65,7 +65,7 @@ public class DashboardActivity extends AppCompatActivity implements LoaderManage
         setSupportActionBar(toolbar);
 
         //initialise ads
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-9110651366020121~1522761095");
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-9110651366020121/7429693892");
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
