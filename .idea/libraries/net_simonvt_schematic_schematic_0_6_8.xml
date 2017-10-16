@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="net.simonvt.schematic:schematic-0.6.8">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/schematic-0.6.8.aar/5e78d6c358793d438b13855a6a60fc46/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/schematic-0.6.8.aar/5e78d6c358793d438b13855a6a60fc46/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.simonvt.schematic/schematic/0.6.8/1b2c1899e08fe970af3e36565406b8cdcc9963b6/schematic-0.6.8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.simonvt.schematic/schematic/0.6.8/4bf6328e06a6f45204455e30f4a3fe59726d6bb3/schematic-0.6.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
