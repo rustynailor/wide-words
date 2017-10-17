@@ -38,13 +38,28 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
+                android:padding="5dp"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
                 android:text="@string/select_a_correct_definition_for"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="normal|bold"
-                android:gravity="center_vertical"
-                android:layout_marginEnd="20sp"/>
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/answer_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textColor="@android:color/white"
+                tools:text="A fleshy wrinkled and often brightly colored fold of skin hanging from the neck or throat of certain birds (chickens and turkeys) or lizards." />
         </FrameLayout>
 
         <FrameLayout
@@ -59,7 +74,7 @@
                 android:layout_marginStart="20dp"
                 android:id="@+id/word"
                 android:textColor="@android:color/white"
-                android:textSize="36sp"
+                android:autoSizeTextType="uniform"
                 android:textStyle="normal|bold"
                 android:gravity="center"
                 android:layout_marginEnd="20dp"/>
@@ -89,23 +104,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:padding="2dp"
-                android:textSize="@dimen/question_text_size"
-                android:id="@+id/answer_1"
-                tools:text="A fleshy wrinkled and often brightly colored fold of skin hanging from the neck or throat of certain birds (chickens and turkeys) or lizards."/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="2dp"
-                android:textSize="@dimen/question_text_size"
+                android:autoSizeTextType="uniform"
                 android:id="@+id/answer_2"
                 />
 
@@ -137,7 +136,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:padding="2dp"
-                android:textSize="@dimen/question_text_size"
+                android:autoSizeTextType="uniform"
                 android:id="@+id/answer_4"
                 />
         </LinearLayout>
@@ -149,7 +148,7 @@
                 android:gravity="end"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:textSize="24sp"
+                android:autoSizeTextType="uniform"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
